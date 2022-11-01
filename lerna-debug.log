@@ -1,20 +1,9 @@
-0 silly argv { _: [ 'version' ], lernaVersion: '5.0.0', '$0': 'lerna' }
-1 notice cli v5.0.0
-2 verbose rootPath /Users/yanghuimin/Desktop/snow-cli
-3 info current version 0.0.0
-4 silly isAnythingCommitted
-5 verbose isAnythingCommitted 1
-6 silly getCurrentBranch
-7 verbose currentBranch main
-8 silly remoteBranchExists
-9 silly isBehindUpstream
-10 error Error: Command failed with exit code 1: git remote update
-10 error fatal: unable to access 'https://github.com/Sophil-minn/snow-cli.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
-10 error error: Could not fetch origin
-10 error Fetching origin
-10 error     at makeError (/usr/local/lib/node_modules/lerna/node_modules/_execa@5.1.1@execa/lib/error.js:60:11)
-10 error     at Function.module.exports.sync (/usr/local/lib/node_modules/lerna/node_modules/_execa@5.1.1@execa/index.js:194:17)
-10 error     at Object.execSync (/usr/local/lib/node_modules/lerna/node_modules/_@lerna_child-process@5.0.0@@lerna/child-process/index.js:39:16)
-10 error     at updateRemote (/usr/local/lib/node_modules/lerna/node_modules/_@lerna_version@5.0.0@@lerna/version/lib/is-behind-upstream.js:34:16)
-10 error     at isBehindUpstream (/usr/local/lib/node_modules/lerna/node_modules/_@lerna_version@5.0.0@@lerna/version/lib/is-behind-upstream.js:16:3)
-10 error     at VersionCommand.initialize (/usr/local/lib/node_modules/lerna/node_modules/_@lerna_version@5.0.0@@lerna/version/index.js:153:9)
+31 error Error: Command failed with exit code 1: git add -- packages/utils/package.json packages/utils/package-lock.json packages/core/package.json packages/core/package-lock.json lerna.json
+31 error The following paths are ignored by one of your .gitignore files:
+31 error packages/core/package-lock.json
+31 error packages/utils/package-lock.json
+31 error Use -f if you really want to add them.
+31 error     at makeError (/usr/local/lib/node_modules/lerna/node_modules/_execa@5.1.1@execa/lib/error.js:60:11)
+31 error     at handlePromise (/usr/local/lib/node_modules/lerna/node_modules/_execa@5.1.1@execa/index.js:118:26)
+31 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+31 error     at async Promise.all (index 0)
