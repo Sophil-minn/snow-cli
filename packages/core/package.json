@@ -1,6 +1,6 @@
 {
   "name": "@snowlepoard520/core",
-  "version": "0.0.2",
+  "version": "1.1.0",
   "description": "snowlepoard520 core",
   "author": "minmin <1056640663@qq.com>",
   "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/packages/core#readme",
@@ -24,6 +24,9 @@
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
   },
   "dependencies": {
-    "@snowlepoard520/utils": "^0.0.2"
+    "@snowlepoard520/utils": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
