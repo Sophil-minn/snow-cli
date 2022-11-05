@@ -19,5 +19,9 @@
   "homepage": "https://github.com/Sophil-minn/snow-cli#readme",
   "devDependencies": {
     "lerna": "^5.0.0"
+  },
+  "dependencies": {
+    "import-local": "^3.1.0",
+    "npmlog": "^7.0.1"
   }
 }
