@@ -11,13 +11,15 @@
 
 // module.exports = core;
 
-const importLocal = require('import-local');
+// const importLocal = require('import-local');
 
-console.log('__filename: ', __filename);
+// console.log('__filename: ', __filename);
 
-if (importLocal(__filename)) {
-  require('npmlog').info('cli', '正在使用 snow-cli 本地版本')
-} else {
-  console.log(77777)
-  require('../lib')(process.argv.slice(2));
-}
+// if (importLocal(__filename)) {
+//   require('npmlog').info('cli', '正在使用 snow-cli 本地版本')
+// } else {
+//   // console.log(77777)
+//   require('../lib')(process.argv.slice(2));
+// }
+
+require('../lib')(process.argv.slice(2));
