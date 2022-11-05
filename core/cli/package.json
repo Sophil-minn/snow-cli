@@ -31,7 +31,10 @@
     "@snowlepoard520/utils": "file:../../utils/utils",
     "color": "^4.2.3",
     "colors": "^1.4.0",
-    "semver": "^7.3.8"
+    "path-exists": "^4.0.0",
+    "root-check": "^1.0.0",
+    "semver": "^7.3.8",
+    "user-home": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"
