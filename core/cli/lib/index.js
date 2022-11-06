@@ -13,9 +13,9 @@ const log = require('@snowlepoard520/log');
 const constant = require('./const');
 
 let args;
-
+// 改变log.level方案一,不推荐
 // checkInputArgs();
-
+// const log = require('@snowlepoard520/log');
 
 
 function core() {
@@ -75,6 +75,7 @@ function checkArgs() {
   } else {
     process.env.LOG_LEVEL = 'info';
   }
+  // 改变log.level方案二,推荐
   log.level =  process.env.LOG_LEVEL;
 }
 
