@@ -125,12 +125,12 @@ async function checkGlobalUpdate() {
   const npmName = pkg.name;
   //2. 调用npm API, 获取所有版本号
   const data = await getNpmInfo(npmName);
-  console.log('data: ', data);
-  // const { getNpmVersions } = require('@snowlepoard520/get-npm-info');
+  // console.log('data: ', data);
   // const { getNpmSemverVersions } = require('@snowlepoard520/get-npm-info');
-  
   //3. 提取所有版本号，比对那些版本号是大于当前版本号
-  // const data = await  getNpmVersions(npmName);
+  const { getNpmVersions } = require('@snowlepoard520/get-npm-info');
+  const versions = await  getNpmVersions(npmName);
+  console.log('versions: ', versions);
   // const lastVersion  = await  getNpmSemverVersions(currentVersion, npmName);
   //4. console.log(newVersion, 'newVersion');
   // 获取最新的版本号，提示用户更新到该版本
