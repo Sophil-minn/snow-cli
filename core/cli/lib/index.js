@@ -18,7 +18,7 @@ let args;
 // const log = require('@snowlepoard520/log');
 
 
-function core() {
+async function core() {
   try {
     // 检查版本号
     checkPkgVersion();
@@ -34,7 +34,7 @@ function core() {
     // 检查环境变量
     checkEnv();
     // 检查是否为最新版本, 进行全局更新
-    checkGlobalUpdate();
+    await checkGlobalUpdate();
   } catch (e) {
     console.log('我是铺货的错误');
     log.error(e.message);
@@ -118,16 +118,16 @@ function createDefaultConfig() {
   return cliConfig;
 }
 
-function checkGlobalUpdate() {
+async function checkGlobalUpdate() {
   const { getNpmInfo } = require('@snowlepoard520/get-npm-info');
   //1. 获取当前版本和模块
   const currentVersion = pkg.version;
   const npmName = pkg.name;
   //2. 调用npm API, 获取所有版本号
-  getNpmInfo(npmName);
+  const data = await getNpmInfo(npmName);
+  console.log('data: ', data);
   // const { getNpmVersions } = require('@snowlepoard520/get-npm-info');
   // const { getNpmSemverVersions } = require('@snowlepoard520/get-npm-info');
-
   
   //3. 提取所有版本号，比对那些版本号是大于当前版本号
   // const data = await  getNpmVersions(npmName);
