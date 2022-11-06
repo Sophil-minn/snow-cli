@@ -131,20 +131,20 @@ async function checkGlobalUpdate() {
   // 获取所有的版本号
   const { getNpmVersions, getNpmSemverVersions, getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
   const versions = await getNpmVersions(npmName);
-  console.log(npmName, 'versions: ', versions);
+  // console.log(npmName, 'versions: ', versions);
   //3. 提取所有版本号，比对那些版本号是大于当前版本号
   // const semverVersions = await getNpmSemverVersions(currentVersion, testNpmName);
-  const allVersions = await getNpmVersions(testNpmName2);
-  console.log(testNpmName2, 'allVersions: ', allVersions);
-  const semverVersions = await getNpmSemverVersions(currentVersion, testNpmName2);
-  console.log('semverVersions: ', semverVersions);
+  // const allVersions = await getNpmVersions(npmName);
+  // console.log(testNpmName2, 'allVersions: ', allVersions);
+  const semverVersions = await getNpmSemverVersions(currentVersion, npmName);
+  // console.log('semverVersions: ', semverVersions);
 
   //4. 获取最新的版本号，提示用户更新到该版本
-  const lastVersion = await getNpmLatestVersion(testNpmName2);
+  const lastVersion = await getNpmLatestVersion(npmName);
   console.log('lastVersion: ', lastVersion);
   if (lastVersion && semver.gt(lastVersion, currentVersion)) {
-    log.warn(colors.yellow(`请手动更新${testNpmName2}, 当前版本：${currentVersion} ， 最新版本： ${lastVersion}
-    更新命令： npm install -g ${testNpmName2}
+    log.warn(colors.yellow(`请手动更新${npmName}, 当前版本：${currentVersion} ， 最新版本： ${lastVersion}
+    更新命令： npm install -g ${npmName}
     `));
   }
   
