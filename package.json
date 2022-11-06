@@ -21,6 +21,7 @@
     "lerna": "^5.0.0"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "import-local": "^3.1.0",
     "npmlog": "^7.0.1"
   }

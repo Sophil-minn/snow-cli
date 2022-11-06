@@ -2,8 +2,8 @@
 
 module.exports = core;
 
+const path = require('path');
 const pkg = require('../package-lock.json');
-
 const semver = require('semver');
 const colors = require('colors/safe');
 const userHome = require('user-home');
@@ -29,7 +29,9 @@ function core() {
     checkUserHome();
     // 检查入参
     checkInputArgs();
-    log.verbose('test', 'test debug log');
+    // log.verbose('test', 'test debug log');
+    // 检查环境变量
+    checkEnv();
   } catch (e) {
     console.log('我是铺货的错误');
     log.error(e.message);
@@ -84,4 +86,31 @@ function checkUserHome() {
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red('当前登陆用户主目录不存在！'))
   }
+}
+
+function checkEnv() {
+  const dotenv = require('dotenv');
+  const dotenvPath = path.resolve(userHome, '.env');
+  // console.log('dotenvPath: ', dotenvPath);
+  if (pathExists(dotenvPath)) {
+    dotenv.config({path: dotenvPath});
+  }
+  const config = createDefaultConfig();
+  // log.verbose('环境变量: ', config, process.env.CLI_HOME_PATH);
+  // log.verbose('env: ', config, process.env);
+  
+}
+
+function createDefaultConfig() {
+  const cliConfig = {
+    home: userHome,
+  }
+  if (process.env.CLI_HOME) {
+    cliConfig['cliHome'] = path.join(userHome, process.env.CLI_HOME);
+  } else {
+    cliConfig['cliHome'] = path.join(userHome, constant.DEFAULT_CLI_HOME);
+  }
+  // 赋值给环境变量
+  process.env.CLI_HOME_PATH = cliConfig.cliHome;
+  return cliConfig;
 }
