@@ -4,7 +4,9 @@
 
 // module.exports = core;
 
-// const importLocal = require('import-local');
+const importLocal = require('import-local');
+console.log('importLocal: ', importLocal);
+console.log('require ', require('import-local'));
 
 if (importLocal(__filename)) {
   require('npmlog').info('cli', '正在使用 snow-cli 本地版本')
