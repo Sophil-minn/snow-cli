@@ -4,8 +4,8 @@ const utils = require('@snowlepoard520/utils');
 const log = require('@snowlepoard520/log');
 
 const importLocal = require('import-local');
-console.log('__filename: ', new Date().getDate());
-
+console.log('time: ', new Date().getDate());
+console.log(utils(), 'utils')
 if (importLocal(__filename)) {
   log.info('cli', '正在使用 snow-cli 本地版本')
 } else {
