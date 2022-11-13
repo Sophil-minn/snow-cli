@@ -29,8 +29,11 @@
   "dependencies": {
     "@snowlepoard520/get-npm-info": "file:../../utils/get-npm-info",
     "@snowlepoard520/log": "file:../../utils/log",
+    "@snowlepoard520/utils": "file:../../utils/utils",
     "color": "^4.2.3",
     "colors": "^1.4.0",
+    "commander": "^9.4.1",
+    "dotenv": "^16.0.3",
     "minimist": "^1.2.7",
     "path-exists": "^4.0.0",
     "root-check": "^1.0.0",
@@ -39,5 +42,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "import-local": "^3.1.0",
+    "url-join": "^5.0.0"
   }
 }

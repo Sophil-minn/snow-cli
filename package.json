@@ -18,13 +18,10 @@
   },
   "homepage": "https://github.com/Sophil-minn/snow-cli#readme",
   "devDependencies": {
-    "@snowlepoard520/core": "^1.2.4",
-    "@snowlepoard520/utils": "^1.2.2",
     "lerna": "^5.0.0"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "import-local": "^3.1.0",
     "npmlog": "^7.0.1"
   }
 }

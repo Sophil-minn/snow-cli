@@ -3,43 +3,100 @@
 module.exports = core;
 
 const path = require('path');
-const pkg = require('../package-lock.json');
+const pkg = require('../package.json');
 const semver = require('semver');
-const colors = require('colors/safe');
+const colors = require('colors/safe')
 const userHome = require('user-home');
 const pathExists = require('path-exists').sync;
 const rootCheck = require('root-check');
 const log = require('@snowlepoard520/log');
 const constant = require('./const');
+const dotenv = require('dotenv');
+
+console.log(colors.red('这是一段红色的文字'))
+
+
+const commander = require('commander');
 
 let args;
 // 改变log.level方案一,不推荐
 // checkInputArgs();
 // const log = require('@snowlepoard520/log');
+// 实例化一个commnader
+const program = new commander.Command();
+
+function registerCommand() {
+  // console.log('pkg?.bin: ', pkg);
+  program
+    .name(`${Object.keys(pkg?.bin)[0]}----minnnn`)
+    .usage('<command> [options]')
+    .version(pkg.version)
+    .option('-d, --debug', '是否开启调试模式', false)
+  
+  program.on('option:debug', function() {
+    // log.verbose('test',34567, log);
+    if (program.opts().debug) {
+      process.env.LOG_LEVEL = 'verbose';
+    } else {
+      process.env.LOG_LEVEL = 'info';
+    }
+    log.level = process.env.LOG_LEVEL;
+    log.verbose('test', 'program.on');
+  });
+  // 对未知命令监听
+  program.on('command:*', function(obj) {
+    const avaiableCommands = program.commands.map(cmd => cmd.name());
+    console.log(colors.red('未知的命令：' + obj[0]));
+    if(avaiableCommands.length) {
+      console.log(colors.red('可用命令：' + avaiableCommands.join(',')));
+    }
+  });
+
+  if(process.argv.length < 3) {
+    program.outputHelp();
+  }
+  if(program.args && program.args.length < 1) {
+    console.log('program.args: ', program.args);
+    program.outputHelp();
+  }
+  program.parse(process.argv);
+}
 
 async function core() {
   try {
-    // 检查版本号
-    checkPkgVersion();
-    // 检查node版本
-    checkNodeVersion();
-    // 检查root启动,并进行用户权限降级
-    checkRoot();
-    // 检查用户主目录
-    checkUserHome();
-    // 检查入参
-    checkInputArgs();
-    // log.verbose('test', 'test debug log');
-    // 检查环境变量
-    checkEnv();
-    // 检查是否为最新版本, 进行全局更新
-    await checkGlobalUpdate();
+    log.prepare('命令执行流程准备阶段-----------start ~ ');
+    // await prepare();
+    log.prepare('命令执行流程准备阶段-----------end ~ ');
+    log.command('命令注册阶段 start ~ ');
+    registerCommand();
+    log.command('命令命令阶段 end ~ ');
   } catch (e) {
     console.log('我是铺货的错误');
-    log.error(e.message);
+    log.error(e);
   } 
   
-  log.success('脚手架命令 ---- 执行结束! ');
+  log.success('success! ');
+  // log.success2('success2! ');
+  log.end(colors.green('脚手架命令 ---- 执行结束! '));
+}
+
+
+async function prepare() {
+  // 检查版本号
+  checkPkgVersion();
+  // 检查node版本
+  checkNodeVersion();
+  // 检查root启动,并进行用户权限降级
+  checkRoot();
+  // 检查用户主目录
+  checkUserHome();
+  // 检查入参
+  checkInputArgs();
+  // log.verbose('test', 'test debug log');
+  // 检查环境变量
+  checkEnv();
+  // 检查是否为最新版本, 进行全局更新
+  await checkGlobalUpdate();
 }
 
 // 检查版本号
@@ -96,7 +153,6 @@ function checkUserHome() {
 }
 
 function checkEnv() {
-  const dotenv = require('dotenv');
   const dotenvPath = path.resolve(userHome, '.env');
   // log.verbose('dotenvPath: ', dotenvPath);
   if (pathExists(dotenvPath)) {
@@ -149,8 +205,8 @@ async function checkGlobalUpdate() {
   //4. 获取最新的版本号，提示用户更新到该版本
   log.warn('获取最新的版本号...  稍等');
   const lastVersion = await getNpmLatestVersion(npmName);
-  log.success('最新的版本号: ', lastVersion);
-  log.success('当前版本号: ', currentVersion);
+  log.success('npm最新的版本号: ', lastVersion);
+  log.success('当前开发版本号: ', currentVersion);
   if (lastVersion && semver.gt(lastVersion, currentVersion)) {
     log.warn(colors.yellow(`请手动更新${npmName}, 当前版本：${currentVersion} ， 最新版本： ${lastVersion}
     更新命令： npm install -g ${npmName}
@@ -158,5 +214,8 @@ async function checkGlobalUpdate() {
   } else {
     log.warn('当前版本号开发中... 待发布', );
   }
+
+
+
   
 }
