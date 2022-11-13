@@ -10,6 +10,7 @@ const userHome = require('user-home');
 const pathExists = require('path-exists').sync;
 const rootCheck = require('root-check');
 const log = require('@snowlepoard520/log');
+const init = require('@snowlepoard520/init');
 const constant = require('./const');
 const dotenv = require('dotenv');
 
@@ -31,12 +32,14 @@ function registerCommand() {
     .name(`${Object.keys(pkg?.bin)[0]}----minnnn`)
     .usage('<command> [options]')
     .version(pkg.version)
-    .option('-d, --debug', '是否开启调试模式', false)
-  
+    .option('-d, --debug', '是否开启调试模式', false);
   program.on('option:debug', function() {
-    // log.verbose('test',34567, log);
+    console.warn(program.rawArgs, 999999);
     if (program.opts().debug) {
       process.env.LOG_LEVEL = 'verbose';
+      if(program.rawArgs?.length < 4) {
+        program.outputHelp();
+      }
     } else {
       process.env.LOG_LEVEL = 'info';
     }
@@ -51,14 +54,21 @@ function registerCommand() {
       console.log(colors.red('可用命令：' + avaiableCommands.join(',')));
     }
   });
-
+  // 没有输入命令时,打印帮助文档
   if(process.argv.length < 3) {
     program.outputHelp();
-  }
-  if(program.args && program.args.length < 1) {
-    console.log('program.args: ', program.args);
-    program.outputHelp();
-  }
+    console.log();
+  } 
+
+  // console.log(program, 567890);
+  // program 
+  //   .command('init [projectName]')
+  //   .option('-f, --force', '是否 强制初始化项目', false)
+  // .action(init)
+  // .action((projectName, cmdObj) => {
+  //   console.log('init', projectName, cmdObj);
+  // })
+  
   program.parse(process.argv);
 }
 
