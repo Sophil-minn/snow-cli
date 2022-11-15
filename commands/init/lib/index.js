@@ -2,7 +2,7 @@
 
 
 function init(projectName, cmdObj) {
-  console.log('init - projectName, cmdObj: ', projectName, cmdObj);
+  console.log('init - projectName, cmdObj: ', projectName, cmdObj.force);
     // TODO
 }
 

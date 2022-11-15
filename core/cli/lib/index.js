@@ -61,10 +61,10 @@ function registerCommand() {
   } 
 
   // console.log(program, 567890);
-  // program 
-  //   .command('init [projectName]')
-  //   .option('-f, --force', '是否 强制初始化项目', false)
-  // .action(init)
+  program 
+    .command('init [projectName]')
+    .option('-f, --force', '是否 强制初始化项目', false)
+  .action(init)
   // .action((projectName, cmdObj) => {
   //   console.log('init', projectName, cmdObj);
   // })
