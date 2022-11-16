@@ -27,12 +27,15 @@ let args;
 const program = new commander.Command();
 
 function registerCommand() {
+  console.log('registerCommand: ', 1);
   // console.log('pkg?.bin: ', pkg);
   program
     .name(`${Object.keys(pkg?.bin)[0]}----minnnn`)
     .usage('<command> [options]')
     .version(pkg.version)
-    .option('-d, --debug', '是否开启调试模式', false);
+    .option('-d, --debug', '是否开启调试模式', false)
+    .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '')
+
   program.on('option:debug', function() {
     console.warn(program.rawArgs, 999999);
     if (program.opts().debug) {
@@ -46,6 +49,14 @@ function registerCommand() {
     log.level = process.env.LOG_LEVEL;
     log.verbose('test', 'program.on');
   });
+
+  program.on('option:targetPath', function () {
+    log.warn(colors.red('监听targetPath属性的输入--------'))
+    log.warn(colors.red('targetPath: ', program.targetPath));
+    process.env.CLI_TARGET_PATH = program.targetPath;
+  });
+
+
   // 对未知命令监听
   program.on('command:*', function(obj) {
     const avaiableCommands = program.commands.map(cmd => cmd.name());
@@ -68,20 +79,22 @@ function registerCommand() {
   // .action((projectName, cmdObj) => {
   //   console.log('init', projectName, cmdObj);
   // })
-  
+  // program.parse(process.argv) 表示对传入 Node.js 的命令行参数进行解析。
+  // 其中 process.argv 是 Node.js 进程接受到的原始的参数。
+  console.log('registerCommand: ', 0);
   program.parse(process.argv);
 }
 
 async function core() {
   try {
     log.prepare('命令执行流程准备阶段-----------start ~ ');
-    // await prepare();
+    await prepare();
     log.prepare('命令执行流程准备阶段-----------end ~ ');
     log.command('命令注册阶段 start ~ ');
     registerCommand();
     log.command('命令命令阶段 end ~ ');
   } catch (e) {
-    console.log('我是铺货的错误');
+    console.log('core/cli/lib/index.js 捕获的异常');
     log.error(e);
   } 
   
@@ -101,7 +114,7 @@ async function prepare() {
   // 检查用户主目录
   checkUserHome();
   // 检查入参
-  checkInputArgs();
+  // checkInputArgs();
   // log.verbose('test', 'test debug log');
   // 检查环境变量
   checkEnv();
@@ -137,23 +150,23 @@ function checkRoot() {
   log.success('检查root启动,并进行用户权限降级');
 }
 
-function checkInputArgs() {
-  const minimist = require('minimist');
-  args = minimist(process.argv.slice(2));
-  log.verbose('args: ', args);
-  checkArgs();
-  log.success('检查入参', args)
-}
+// function checkInputArgs() {
+//   const minimist = require('minimist');
+//   args = minimist(process.argv.slice(2));
+//   log.verbose('args: ', args);
+//   checkArgs();
+//   log.success('检查入参', args)
+// }
 
-function checkArgs() {
-  if (args.debug) {
-    process.env.LOG_LEVEL = 'verbose';
-  } else {
-    process.env.LOG_LEVEL = 'info';
-  }
-  // 改变log.level方案二,推荐
-  log.level =  process.env.LOG_LEVEL;
-}
+// function checkArgs() {
+//   if (args.debug) {
+//     process.env.LOG_LEVEL = 'verbose';
+//   } else {
+//     process.env.LOG_LEVEL = 'info';
+//   }
+//   // 改变log.level方案二,推荐
+//   log.level =  process.env.LOG_LEVEL;
+// }
 
 function checkUserHome() {
   log.success('检查用户主目录: ', userHome);
