@@ -11,11 +11,11 @@ const pathExists = require('path-exists').sync;
 const rootCheck = require('root-check');
 const log = require('@snowlepoard520/log');
 const init = require('@snowlepoard520/init');
+const exec = require('@snowlepoard520/exec');
 const constant = require('./const');
 const dotenv = require('dotenv');
 
-console.log(colors.red('这是一段红色的文字'))
-
+// console.log(colors.red('这是一段红色的文字'))
 
 const commander = require('commander');
 
@@ -75,7 +75,7 @@ function registerCommand() {
   program 
     .command('init [projectName]')
     .option('-f, --force', '是否 强制初始化项目', false)
-  .action(init)
+  .action(exec)
   // .action((projectName, cmdObj) => {
   //   console.log('init', projectName, cmdObj);
   // })
@@ -119,7 +119,7 @@ async function prepare() {
   // 检查环境变量
   checkEnv();
   // 检查是否为最新版本, 进行全局更新
-  await checkGlobalUpdate();
+  // await checkGlobalUpdate();
 }
 
 // 检查版本号
