@@ -1,6 +1,6 @@
 {
   "name": "@snowlepoard520/exec",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "description": "> TODO: description",
   "author": "minmin <1056640663@qq.com>",
   "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/exec#readme",
@@ -27,7 +27,7 @@
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
   },
   "dependencies": {
-    "@snowlepoard520/package": "file:../../models/package",
-    "@snowlepoard520/log": "file:../../utils/log"
+    "@snowlepoard520/log": "file:../../utils/log",
+    "@snowlepoard520/package": "file:../../models/package"
   }
 }
