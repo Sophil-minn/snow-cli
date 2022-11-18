@@ -37,7 +37,7 @@ function registerCommand() {
     .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '')
 
   program.on('option:debug', function() {
-    console.warn(program.rawArgs, 999999);
+    // log.verbose(program.rawArgs, 999999);
     if (program.opts().debug) {
       process.env.LOG_LEVEL = 'verbose';
       if(program.rawArgs?.length < 4) {
