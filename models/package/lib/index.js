@@ -34,7 +34,9 @@ class Package {
   exists() {}
 
   // 安装package
-  install() {}
+  install() {
+    
+  }
 
   // 更新package
   update() {}
