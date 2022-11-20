@@ -131,6 +131,7 @@ class Package {
     else {
       return _getRootFile(this.targetPath);
     }
+  }
 }
 
 
