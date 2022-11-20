@@ -1,14 +1,17 @@
 {
-  "name": "snow-cli",
-  "version": "1.2.1",
+  "name": "@snowlepoard/snow-cli",
+  "version": "1.3.0",
   "description": "",
-  "main": "index.js",
+  "main": "core/cli/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sophil-minn/snow-cli.git"
+  },
+  "bin": {
+    "snow-cli": "core/cli/bin/index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +22,9 @@
   "homepage": "https://github.com/Sophil-minn/snow-cli#readme",
   "devDependencies": {
     "lerna": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

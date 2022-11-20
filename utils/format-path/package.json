@@ -1,9 +1,9 @@
 {
-  "name": "@snowlepoard520/package",
-  "version": "1.2.11",
+  "name": "@snowlepoard520/format-path",
+  "version": "1.2.12",
   "description": "> TODO: description",
   "author": "minmin <1056640663@qq.com>",
-  "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/package#readme",
+  "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/format-path#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://registry.npmjs.org/"
+    "registry": "https://registry.npmmirror.com/"
   },
   "repository": {
     "type": "git",
@@ -25,10 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
-  },
-  "dependencies": {
-    "@snowlepoard520/utils": "file:../../utils/utils",
-    "@snowlepoard520/format-path": "file:../../utils/format-path",
-    "pkg-dir": "^5.0.0"
   }
 }

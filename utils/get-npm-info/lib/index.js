@@ -14,9 +14,9 @@ function getNpmInfo(npmName, registry) {
   // const testNpmName = '@snowlepoard520/core'
   const npmInfoUrl = urlJoin(registryUrl, npmName);
   // const npmInfoUrl = urlJoin(registryUrl, testNpmName);
-  // console.log('npmInfoUrl: ', npmInfoUrl);
+  // console.log('请求 npmInfoUrl: ', npmInfoUrl);
   return axios.get(npmInfoUrl).then(response => {
-    // console.log('response: ', response);
+    console.log('请求npm数据信息成功: ');
     if(response.status === 200) {
       // console.log(response, 'response');
       return response.data;
@@ -24,13 +24,14 @@ function getNpmInfo(npmName, registry) {
     return null;
   }).catch(
     err => {
+      console.error('err: ', err);
       return Promise.reject(err);
     }
   );
 }
 
 function getDefaultRegistry(isOriginal = true) {
-  return isOriginal ? 'https://registry.npmjs.org/': 'https://registry.npm.taobao.org/'
+  return isOriginal ? 'https://registry.npmjs.org/': 'https://registry.npmmirror.com/'
 }
 
 async function getNpmVersions(npmName, registry){

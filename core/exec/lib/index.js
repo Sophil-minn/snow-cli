@@ -12,19 +12,19 @@ function exec() {
   log.verbose('targetPath: ', targetPath);
   const homePath = process.env.CLI_HOME_PATH;
   log.verbose('homePath: ', homePath);
-  console.log(arguments, '-------------');
+  log.verbose(arguments, '-------------');
   const cmdObj = arguments[arguments.length - 1]
   const cmdName = cmdObj.name();
-  console.log('cmdName: ', cmdName);
+  log.verbose('cmdName: ', cmdName);
   const packageName = SETTINGS[cmdName];
   const packageVersion = 'latest';
-  console.log('packageName: ', packageName);
+  log.verbose('packageName: ', packageName);
   const pkg = new Package({
     targetPath,
     packageName,
     packageVersion
   });
-  log.verbose('pkg: ', pkg);
+  log.verbose('pkg: ', pkg.getRootFilePath());
   log.verbose('exec: ', 123456);
   log.verbose('exec: ', process.env.CLI_HOME_PATH);
   

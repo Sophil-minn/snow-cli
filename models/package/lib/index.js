@@ -1,6 +1,9 @@
 'use strict';
 
+const pkgDir =  require('pkg-dir').sync;
+const path = require('path');
 const { isObject } = require('@snowlepoard520/utils');
+const formatPath = require('@snowlepoard520/format-path');
 
 class Package {
   constructor(options) {
@@ -37,7 +40,24 @@ class Package {
   update() {}
 
   // 获取入口文件的路径
-  getRootFilePath() {}
+  getRootFilePath() {
+    // 1、获取package.json所在目录- pkg-dir
+    // console.log(await packageDirectory(this.targetPath));
+    const dir = pkgDir(this.targetPath);
+    console.log(dir, 'dir');
+
+    if (dir) {
+      // 2、读取package.json
+      const pkgFile = require(path.resolve(dir, 'package.json'));
+      // 3、寻找main/lib
+      if (pkgFile && pkgFile?.main) {
+        // 4、路径的兼容（macOS/windows）
+        return formatPath(path.resolve(dir, pkgFile.main));
+      }
+    }
+    return null;
+
+  }
 
 
 }

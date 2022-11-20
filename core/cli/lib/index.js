@@ -15,7 +15,7 @@ const exec = require('@snowlepoard520/exec');
 const constant = require('./const');
 const dotenv = require('dotenv');
 
-// console.log(colors.red('这是一段红色的文字'))
+// log.verbose(colors.red('这是一段红色的文字'))
 
 const commander = require('commander');
 
@@ -27,8 +27,8 @@ let args;
 const program = new commander.Command();
 
 function registerCommand() {
-  console.log('registerCommand: ', 1);
-  // console.log('pkg?.bin: ', pkg);
+  log.verbose('registerCommand: ', 1);
+  // log.verbose('pkg?.bin: ', pkg);
   program
     .name(`${Object.keys(pkg?.bin)[0]}----minnnn`)
     .usage('<command> [options]')
@@ -60,28 +60,28 @@ function registerCommand() {
   // 对未知命令监听
   program.on('command:*', function(obj) {
     const avaiableCommands = program.commands.map(cmd => cmd.name());
-    console.log(colors.red('未知的命令：' + obj[0]));
+    log.verbose(colors.red('未知的命令：' + obj[0]));
     if(avaiableCommands.length) {
-      console.log(colors.red('可用命令：' + avaiableCommands.join(',')));
+      log.verbose(colors.red('可用命令：' + avaiableCommands.join(',')));
     }
   });
   // 没有输入命令时,打印帮助文档
   if(process.argv.length < 3) {
     program.outputHelp();
-    console.log();
+    log.verbose();
   } 
 
-  // console.log(program, 567890);
+  // log.verbose(program, 567890);
   program 
     .command('init [projectName]')
     .option('-f, --force', '是否 强制初始化项目', false)
   .action(exec)
   // .action((projectName, cmdObj) => {
-  //   console.log('init', projectName, cmdObj);
+  //   log.verbose('init', projectName, cmdObj);
   // })
   // program.parse(process.argv) 表示对传入 Node.js 的命令行参数进行解析。
   // 其中 process.argv 是 Node.js 进程接受到的原始的参数。
-  console.log('registerCommand: ', 0);
+  log.verbose('registerCommand: ', 0);
   program.parse(process.argv);
 }
 
@@ -94,7 +94,7 @@ async function core() {
     registerCommand();
     log.command('命令命令阶段 end ~ ');
   } catch (e) {
-    console.log('core/cli/lib/index.js 捕获的异常');
+    log.verbose('core/cli/lib/index.js 捕获的异常');
     log.error(e);
   } 
   
@@ -119,7 +119,7 @@ async function prepare() {
   // 检查环境变量
   checkEnv();
   // 检查是否为最新版本, 进行全局更新
-  // await checkGlobalUpdate();
+  await checkGlobalUpdate();
 }
 
 // 检查版本号
@@ -213,17 +213,17 @@ async function checkGlobalUpdate() {
   log.warn('正在调用npm API, 获取包信息 ...  稍等');
   //2. 调用npm API, 获取包信息
   const data = await getNpmInfo(npmName);
-  // console.log('data: ', data);
+  // log.verbose('data: ', data);
   // 获取所有的版本号
   const { getNpmVersions, getNpmSemverVersions, getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
   const versions = await getNpmVersions(npmName);
-  // console.log(npmName, 'versions: ', versions);
+  // log.verbose(npmName, 'versions: ', versions);
   //3. 提取所有版本号，比对那些版本号是大于当前版本号
   // const semverVersions = await getNpmSemverVersions(currentVersion, testNpmName);
   // const allVersions = await getNpmVersions(npmName);
-  // console.log(testNpmName2, 'allVersions: ', allVersions);
+  // log.verbose(testNpmName2, 'allVersions: ', allVersions);
   const semverVersions = await getNpmSemverVersions(currentVersion, npmName);
-  // console.log('semverVersions: ', semverVersions);
+  // log.verbose('semverVersions: ', semverVersions);
 
   //4. 获取最新的版本号，提示用户更新到该版本
   log.warn('获取最新的版本号...  稍等');
