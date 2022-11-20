@@ -2,6 +2,7 @@
 
 const pkgDir =  require('pkg-dir').sync;
 const npminstall = require('npminstall');
+const fse = require('fs-extra');
 const path = require('path');
 const { isObject } = require('@snowlepoard520/utils');
 const formatPath = require('@snowlepoard520/format-path');
