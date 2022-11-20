@@ -80,7 +80,30 @@ class Package {
   }
 
   // 更新package
-  update() {}
+  async update() {
+    // console.log('package update');
+    await this.prepare();
+    // 1. 获取最新的npm模块版本号
+    const latestPackageVersion = await getNpmLatestVersion(this.packageName);
+    // 2. 查询最新版本号对应的路径是否存在
+    const latestFilePath = this.getSpecificCacheFilePath(latestPackageVersion);
+    console.log(latestFilePath, 'latestFilePath');
+    // 3. 如果不存在，则直接安装最新版本
+    if (!pathExists(latestFilePath)) {
+      console.log('我需要更新package');
+      await npminstall({
+        root: this.targetPath,
+        storeDir: this.storeDir,
+        regitry: getDefaultRegistry(true),
+        pkgs: [
+          { name: this.packageName, version: latestPackageVersion }
+        ]
+      })
+      this.packageVersion = latestPackageVersion;
+    } else {
+      console.log('不需要更新，我是最新的包');
+    }
+  }
 
   // 获取入口文件的路径
   getRootFilePath() {

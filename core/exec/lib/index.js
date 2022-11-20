@@ -38,7 +38,7 @@ async function exec() {
       packageVersion
     });
     if( await pkg.exists()) {
-      console.log('更新package');
+      await pkg.update();
     } else {
       await pkg.install();
     }
