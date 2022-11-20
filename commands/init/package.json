@@ -27,6 +27,7 @@
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
   },
   "dependencies": {
-    "@snowlepoard520/log": "file:../../utils/log"
-  }
+    "@snowlepoard520/log": "^1.2.11"
+  },
+  "gitHead": "4a2a65d0623121c273c7e6e53fe41881224dee41"
 }
