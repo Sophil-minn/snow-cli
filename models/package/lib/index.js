@@ -107,12 +107,11 @@ class Package {
 
   // 获取入口文件的路径
   getRootFilePath() {
-    // 1、获取package.json所在目录- pkg-dir
-    // function _getRootFile() {
+    function _getRootFile(targetPath){
+      // 1、获取package.json所在目录- pkg-dir
       // console.log(await packageDirectory(this.targetPath));
-      const dir = pkgDir(this.targetPath);
-      console.log(dir, 'dir');
-
+      const dir = pkgDir(targetPath);
+      // console.log(dir, 'dir');
       if (dir) {
         // 2、读取package.json
         const pkgFile = require(path.resolve(dir, 'package.json'));
@@ -123,9 +122,15 @@ class Package {
         }
       }
       return null;
-      }
-   
-
+    }
+    // 使用缓存的时候
+    if (this.storeDir) {
+      return _getRootFile(this.cacheFilePath);
+    } 
+    // 不使用缓存的时候
+    else {
+      return _getRootFile(this.targetPath);
+    }
 }
 
 
