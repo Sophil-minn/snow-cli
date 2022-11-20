@@ -6,12 +6,12 @@ const Package = require('@snowlepoard520/package');
 const log = require('@snowlepoard520/log');
 
 const SETTINGS = {
-  'init': "@snowlepoard520/init"
+  'init': "@imooc-cli/init"
 }
 
 const CACHE_DIR = 'dependencies/';
 
-function exec() {
+async function exec() {
   let targetPath = process.env.CLI_TARGET_PATH;
   log.verbose('targetPath: ', targetPath);
   const homePath = process.env.CLI_HOME_PATH;
@@ -37,6 +37,11 @@ function exec() {
       packageName,
       packageVersion
     });
+    if( await pkg.exists()) {
+      console.log('更新package');
+    } else {
+      await pkg.install();
+    }
   } else {
     pkg = new Package({
       targetPath,
@@ -45,7 +50,7 @@ function exec() {
     });
   }
   log.verbose('pkg: ', pkg.getRootFilePath());
-  log.verbose('exec: ', pkg.install());
+  log.verbose('exists: ', pkg.exists());
   log.verbose('exec: ', process.env.CLI_HOME_PATH);
   
 }

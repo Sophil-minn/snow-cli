@@ -5,7 +5,8 @@ const npminstall = require('npminstall');
 const path = require('path');
 const { isObject } = require('@snowlepoard520/utils');
 const formatPath = require('@snowlepoard520/format-path');
-const { getDefaultRegistry } = require('@snowlepoard520/get-npm-info');
+const { getDefaultRegistry, getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
+const pathExists = require('path-exists').sync;
 
 class Package {
   constructor(options) {
@@ -32,11 +33,41 @@ class Package {
     this.cacheFilePathPrefix = this.packageName.replace('/', '_');
   }
 
+  async prepare() {
+    if (this.storeDir && !pathExists(this.storeDir)) {
+      console.log('生成目录：');
+      fse.mkdirpSync(this.storeDir);
+    }
+    if (this.packageVersion === 'latest') {
+      this.packageVersion = await getNpmLatestVersion(this.packageName);
+    }
+    // _@imooc-cli_init@1.1.3@@imooc-cli
+    // packageName: imooc-cli/init version: 1.1.3
+    // console.log(this.packageVersion, '最新的版本');
+  }
+
+  get cacheFilePath() {
+    return path.resolve(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`);
+  }
+
+  getSpecificCacheFilePath(packageVersion) {
+    return path.resolve(this.storeDir, `_${this.cacheFilePathPrefix}@${packageVersion}@${this.packageName}`);
+  }
+
   // 判断当前package是否存在
-  exists() {}
+  async exists() {
+    // 处于缓存模式
+    if (this.storeDir) {
+      await this.prepare();
+      return pathExists(this.cacheFilePath);
+    } else {
+      return pathExists(this.targetPath);
+    }
+  }
 
   // 安装package
-  install() {
+  async install() {
+    await this.prepare();
     return npminstall({
       root: this.targetPath,
       storeDir: this.storeDir,
