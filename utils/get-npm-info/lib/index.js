@@ -4,6 +4,9 @@ const axios = require('axios');
 const urlJoin = require('url-join');
 const semver = require('semver');
 
+const { getCoreData, versions } = require('./mockData');
+// console.log('getCoreData: ', getCoreData);
+
 function getNpmInfo(npmName, registry) {
   // console.log('registry: ', registry);
   // console.log('npmName: ', npmName);
@@ -15,6 +18,7 @@ function getNpmInfo(npmName, registry) {
   const npmInfoUrl = urlJoin(registryUrl, npmName);
   // const npmInfoUrl = urlJoin(registryUrl, testNpmName);
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);
+  return new Promise(resolve => resolve(getCoreData));
   return axios.get(npmInfoUrl).then(response => {
     console.log('请求npm数据信息成功: ');
     if(response.status === 200) {
@@ -30,11 +34,12 @@ function getNpmInfo(npmName, registry) {
   );
 }
 
-function getDefaultRegistry(isOriginal = true) {
+function getDefaultRegistry(isOriginal = false) {
   return isOriginal ? 'https://registry.npmjs.org/': 'https://registry.npmmirror.com/'
 }
 
 async function getNpmVersions(npmName, registry){
+  return versions;
   const data = await getNpmInfo(npmName);
   if (data) {
     return Object.keys(data.versions);
@@ -46,7 +51,7 @@ async function getNpmVersions(npmName, registry){
 
 async function getNpmSemverVersions(baseVersion, npmName, registry) {
   const versions = await getNpmVersions(npmName, registry);
- //  console.log(versions, 'versions');
+  console.log(versions, 'versions');
  //  console.log(baseVersion, 'baseVersion');
   const semverVersions = getSemverVersions(baseVersion, versions);
   // console.log('semverVersions: ', semverVersions);
@@ -84,5 +89,6 @@ module.exports = {
   getNpmInfo,
   getNpmSemverVersions,
   getNpmVersions,
+  getDefaultRegistry,
   getNpmLatestVersion
 };

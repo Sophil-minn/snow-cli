@@ -45,7 +45,7 @@ function exec() {
     });
   }
   log.verbose('pkg: ', pkg.getRootFilePath());
-  log.verbose('exec: ', pkg);
+  log.verbose('exec: ', pkg.install());
   log.verbose('exec: ', process.env.CLI_HOME_PATH);
   
 }
