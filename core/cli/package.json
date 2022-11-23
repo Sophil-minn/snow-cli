@@ -7,7 +7,7 @@
   "license": "ISC",
   "main": "bin/index.js",
   "bin": {
-    "snow-cli": "bin/index.js"
+    "snow": "bin/index.js"
   },
   "directories": {
     "lib": "lib",

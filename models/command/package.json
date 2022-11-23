@@ -1,9 +1,9 @@
 {
-  "name": "@snowlepoard520/init",
+  "name": "@snowlepoard520/command",
   "version": "1.2.12",
   "description": "> TODO: description",
   "author": "minmin <1056640663@qq.com>",
-  "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/init#readme",
+  "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/command#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -14,7 +14,6 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmmirror.com/",
     "access": "public"
   },
   "repository": {
@@ -26,10 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
-  },
-  "dependencies": {
-    "@snowlepoard520/log": "file:../../utils/log",
-    "@snowlepoard520/command": "file:../../models/command"
-  },
-  "gitHead": "edcc03e7fff823cf525062299d649c6d309f6103"
+  }
 }
