@@ -27,11 +27,11 @@
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
   },
   "dependencies": {
-    "@snowlepoard520/exec": "file:../exec",
+    "@snowlepoard520/exec": "^1.3.1",
     "@snowlepoard520/get-npm-info": "file:../../utils/get-npm-info",
-    "@snowlepoard520/init": "file:../../commands/init",
-    "@snowlepoard520/log": "file:../../utils/log",
-    "@snowlepoard520/utils": "file:../../utils/utils",
+    "@snowlepoard520/init": "^1.3.1",
+    "@snowlepoard520/log": "^1.3.1",
+    "@snowlepoard520/utils": "^1.3.1",
     "color": "^4.2.3",
     "colors": "^1.4.0",
     "commander": "^6.2.1",
@@ -49,5 +49,6 @@
   "devDependencies": {
     "import-local": "^3.1.0",
     "url-join": "^5.0.0"
-  }
+  },
+  "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
 }
