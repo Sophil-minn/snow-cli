@@ -19,7 +19,7 @@ async function exec() {
   let storeDir = '';
   let pkg = '';
   log.verbose('homePath: ', homePath);
-  log.verbose('---------', arguments, '-------------');
+  // log.verbose('---------', arguments, '-------------');
   const cmdObj = arguments[arguments.length - 1]
   const cmdName = cmdObj.name();
   log.verbose('cmdName: ', cmdName);

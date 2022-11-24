@@ -3,9 +3,16 @@ const log = require('@snowlepoard520/log');
 const Command = require('@snowlepoard520/command');
 
 class InitCommand extends Command {
-
+  init() {
+    this.projectName = this._argv[0] || '';
+    console.log('this.projectName: ', this.projectName);
+    this.force = !!this._cmd.force;
+    console.log(' this.force: ',  this.force);
+  }
+  exec() {
+    console.log('init 的业务逻辑');
+  }
 }
-
 
 function init(argv) {
   // log.info('argv: ', argv);
