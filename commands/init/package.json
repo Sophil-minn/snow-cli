@@ -31,6 +31,7 @@
     "@snowlepoard520/command": "file:../../models/command",
     "@snowlepoard520/log": "file:../../utils/log",
     "@snowlepoard520/request": "file:../../utils/request",
+    "colors": "^1.4.0",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4"
   },
