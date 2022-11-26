@@ -107,8 +107,8 @@ async function core() {
 async function prepare() {
   // 检查版本号
   checkPkgVersion();
-  // 检查node版本
-  checkNodeVersion();
+  // 检查node版本 下沉到command里去
+  // checkNodeVersion();
   // 检查root启动,并进行用户权限降级
   checkRoot();
   // 检查用户主目录
@@ -131,17 +131,18 @@ function checkPkgVersion() {
 
 }
 
-function checkNodeVersion() {
-  // 获取当前版本号
-  log.verbose(process.version, '当前node版本号');
-  const currentVersion = process.version;
-  const lowestVersion = constant.LOWEST_NODE_VERSION;
-  // 比对最低版本号
-  if (!semver.gte(currentVersion, lowestVersion)) {
-    throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
-  }
-  log.success('检查node版本', process.version);
-}
+// 下沉到command中去
+// function checkNodeVersion() {
+//   // 获取当前版本号
+//   log.verbose(process.version, '当前node版本号');
+//   const currentVersion = process.version;
+//   const lowestVersion = constant.LOWEST_NODE_VERSION;
+//   // 比对最低版本号
+//   if (!semver.gte(currentVersion, lowestVersion)) {
+//     throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
+//   }
+//   log.success('检查node版本', process.version);
+// }
 
 function checkRoot() {
   log.verbose('登陆者何人?', process.geteuid())

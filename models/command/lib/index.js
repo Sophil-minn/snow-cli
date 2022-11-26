@@ -37,7 +37,7 @@ class Command {
   initArgs() {
     this._cmd = this._argv[this._argv.length - 1];
     this._argv = this._argv.slice(0, this._argv.length -1);
-    console.log(this.cmd, this._argv, 'this._argvthis._argvthis._argv');
+    // console.log(this.cmd, this._argv, 'this._argvthis._argvthis._argv');
   }
 
   checkNodeVersion() {
