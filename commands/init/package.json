@@ -30,6 +30,7 @@
   "dependencies": {
     "@snowlepoard520/command": "file:../../models/command",
     "@snowlepoard520/log": "file:../../utils/log",
+    "@snowlepoard520/request": "file:../../utils/request",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4"
   },

@@ -6,6 +6,8 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const Command = require('@snowlepoard520/command');
 
+const getProjectTemplate = require('./getProjectTemplate');
+
 const TYPE_PROJECT = 'project';
 const TYPE_COMPONENT = 'component';
 
@@ -17,7 +19,6 @@ class InitCommand extends Command {
     log.verbose(' this.force: ',  this.force);
   }
   async exec() {
-    // console.log('execccccccccccccc');
     try {
       // 1，准备阶段
       const projectInfo = await this.prepare();
@@ -32,6 +33,9 @@ class InitCommand extends Command {
 
   async prepare() {
     console.log('start安装模板准备阶段开始~');
+    // 判断项目模板是否存在
+    const template = await getProjectTemplate();
+    console.log('template: ', template);
      // 1，判断当前目录是否为空
      const localPath = process.cwd();
      if (!this.isDirEmpty(localPath)) {

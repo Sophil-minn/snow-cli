@@ -1,9 +1,9 @@
 {
-  "name": "@snowlepoard520/exec",
+  "name": "@snowlepoard520/request",
   "version": "1.3.1",
   "description": "> TODO: description",
   "author": "minmin <1056640663@qq.com>",
-  "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/exec#readme",
+  "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/request#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -27,9 +27,7 @@
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
   },
   "dependencies": {
-    "@snowlepoard520/log": "file:../../utils/log",
-    "@snowlepoard520/package": "file:../../models/package",
-    "@snowlepoard520/utils": "file:../../utils/utils"
-  },
-  "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
+    "axios": "^1.2.0",
+    "@snowlepoard520/log": "file:../log"
+  }
 }
