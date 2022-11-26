@@ -9,7 +9,7 @@ async function getTemplate () {
     });
     log.verbose('/snow/template ------  result: ', result);
   } catch (error) {
-    log.warn('请求http://mac.minn.snowlepoard:7001/本地api接口失败: 启用兜底mock数据',);
+    log.warnner('请求http://mac.minn.snowlepoard:7001/本地api接口失败: 启用兜底mock数据',);
     result = [{
       version: '1.0.0',
       name: 'vue标准模板',
