@@ -35,9 +35,8 @@ class InitCommand extends Command {
   }
 
   async downloadTemplate () {
-    console.log('准备阶段 拿到的 projectInfo: ', this.projectInfo);
-    console.log('通过api拿到的模版列表: ', this.template);
-
+    log.verbose('准备阶段 拿到的 projectInfo: ', this.projectInfo);
+    log.verbose('模版列表: ', this.template);
   }
 
   async prepare() {
@@ -224,7 +223,7 @@ class InitCommand extends Command {
 function init(argv) {
   // log.info('argv: ', argv);
   // 环境变量 存取targetPath
-  log.success('通过环境变量获取targetPath: ', process.env.CLI_TARGET_PATH);
+  log.snow('通过环境变量获取targetPath: ', process.env.CLI_TARGET_PATH);
   return new InitCommand(argv);
 }
 

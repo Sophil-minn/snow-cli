@@ -17,7 +17,7 @@ request.interceptors.response.use(
     return response.data;
   },
   error => {
-    console.log('请求API数据失败了--- ');
+    log.verbose('request.interceptors.response. error--- ');
     return Promise.reject();
   }
 );

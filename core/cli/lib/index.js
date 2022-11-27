@@ -98,8 +98,8 @@ async function core() {
     log.error(e);
   } 
   
-  log.success('success! ');
-  // log.success2('success2! ');
+  log.snow('success! ');
+  // log.snow2('success2! ');
   log.end(colors.green('core核心逻辑end ! '));
 }
 
@@ -126,7 +126,7 @@ async function prepare() {
 function checkPkgVersion() {
   // TODO
   log.verbose( '版本号 ：', pkg.version);
-  log.success('检查版本号: ', pkg.version);
+  log.snow('检查版本号: ',pkg.name, pkg.version);
   // log();
 
 }
@@ -141,14 +141,14 @@ function checkPkgVersion() {
 //   if (!semver.gte(currentVersion, lowestVersion)) {
 //     throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
 //   }
-//   log.success('检查node版本', process.version);
+//   log.snow('检查node版本', process.version);
 // }
 
 function checkRoot() {
   log.verbose('登陆者何人?', process.geteuid())
   rootCheck(); // root 降级
   log.verbose('降级后,登陆者何人?', process.geteuid())
-  log.success('检查root启动,并进行用户权限降级');
+  log.snow('检查root启动,并进行用户权限降级');
 }
 
 // function checkInputArgs() {
@@ -156,7 +156,7 @@ function checkRoot() {
 //   args = minimist(process.argv.slice(2));
 //   log.verbose('args: ', args);
 //   checkArgs();
-//   log.success('检查入参', args)
+//   log.snow('检查入参', args)
 // }
 
 // function checkArgs() {
@@ -170,7 +170,7 @@ function checkRoot() {
 // }
 
 function checkUserHome() {
-  log.success('检查用户主目录: ', userHome);
+  log.snow('检查用户主目录: ', userHome);
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red('当前登陆用户主目录不存在！'))
   }
@@ -182,7 +182,7 @@ function checkEnv() {
   if (pathExists(dotenvPath)) {
     dotenv.config({path: dotenvPath});
   }
-  log.success('检查环境变量: ');
+  log.snow('检查环境变量: ');
   createDefaultConfig();
   // log.verbose('环境变量: ', config, process.env.CLI_HOME_PATH);
 }
@@ -193,10 +193,10 @@ function createDefaultConfig() {
   }
   if (process.env.CLI_HOME) {
     cliConfig['cliHome'] = path.join(userHome, process.env.CLI_HOME);
-    log.success('通过配置文件拿到环境变量: ', process.env.CLI_HOME);
+    log.snow('通过配置文件拿到环境变量: ', process.env.CLI_HOME);
   } else {
     cliConfig['cliHome'] = path.join(userHome, constant.DEFAULT_CLI_HOME);
-    log.success('默认环境变量: ', constant.DEFAULT_CLI_HOME);
+    log.snow('默认环境变量: ', constant.DEFAULT_CLI_HOME);
   }
   // 赋值给环境变量
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
@@ -204,7 +204,7 @@ function createDefaultConfig() {
 }
 
 async function checkGlobalUpdate() {
-  log.success('检查是否为最新版本, 进行全局更新');
+  log.snow('检查是否为最新版本, 进行全局更新');
   const { getNpmInfo } = require('@snowlepoard520/get-npm-info');
   //1. 获取当前版本和模块
   const currentVersion = pkg.version;
@@ -227,10 +227,10 @@ async function checkGlobalUpdate() {
   // log.verbose('semverVersions: ', semverVersions);
 
   //4. 获取最新的版本号，提示用户更新到该版本
-  log.warn('获取最新的版本号...  稍等');
+  log.warn(`获取${npmName}最新的版本号...  稍等`);
   const lastVersion = await getNpmLatestVersion(npmName);
-  log.success('npm最新的版本号: ', lastVersion);
-  log.success('当前开发版本号: ', currentVersion);
+  log.snow('npm最新的版本号: ', lastVersion);
+  log.snow('当前开发版本号: ', currentVersion);
   if (lastVersion && semver.gt(lastVersion, currentVersion)) {
     log.warn(colors.yellow(`请手动更新${npmName}, 当前版本：${currentVersion} ， 最新版本： ${lastVersion}
     更新命令： npm install -g ${npmName}

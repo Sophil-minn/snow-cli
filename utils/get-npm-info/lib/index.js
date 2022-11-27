@@ -20,7 +20,7 @@ function getNpmInfo(npmName, registry) {
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);
   // return new Promise(resolve => resolve(getCoreData));
   return axios.get(npmInfoUrl).then(response => {
-    console.log('请求npm数据信息成功: ');
+    console.log(`请求${npmName}npm数据信息成功`);
     if(response.status === 200) {
       // console.log(response, 'response');
       return response.data;

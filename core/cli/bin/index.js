@@ -6,12 +6,13 @@ const log = require('@snowlepoard520/log');
 
 const importLocal = require('import-local');
 // console.log('time: ', new Date().getDate());
-log.success(colors.blue('欢迎使用snow-cli脚手架 - Just to Go!'));
+log.snow(colors.bgBlack(colors.rainbow('welcome to snow-cli  -  snow lepoard Just to Run!')));
+log.snow(colors.brightGreen('contact me on github@Sophil-minn'));
 if (importLocal(__filename)) {
-  log.info('cli', '正在使用 snow-cli 本地版本 +++++++++++++')
+  log.snow(colors.bgBlack(colors.brightGreen('you are using snow-cli local version +++++++++++++')))
 } else {
   // console.log(77777)
-  log.info('cli', '正在使用 snow-cli 当前版本 ----------- ')
+  log.snow(colors.bgBlack(colors.green('now using snow-cli development version ----------- ')))
   require('../lib')(process.argv.slice(2));
 }
 

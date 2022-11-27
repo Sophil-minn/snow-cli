@@ -43,14 +43,14 @@ class Command {
   checkNodeVersion() {
     // 获取当前版本号
     log.verbose(process.version, '当前node版本号');
-    log.success('检查node版本', process.version);
+    log.snow('检查node版本', process.version);
     const currentVersion = process.version;
     const lowestVersion = LOWEST_NODE_VERSION;
     // 比对最低版本号
     if (!semver.gte(currentVersion, lowestVersion)) {
       throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
     } else {
-      log.success('当前版本号满足!');
+      log.snow('当前版本号满足本次需要!');
     }
 
   }
