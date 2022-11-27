@@ -7,7 +7,7 @@ const log = require('@snowlepoard520/log');
 const { exec: spawn } = require('@snowlepoard520/utils');
 
 const SETTINGS = {
-  'init': "@imooc-cli/init"
+  'init': "@snowlepoard/init"
 }
 
 const CACHE_DIR = 'dependencies/';
@@ -58,7 +58,7 @@ async function exec() {
   if (rootFile) {
     // try {
     //   // 当前进程中调用，无法充分利用CPU资源
-    require(rootFile).call(null, Array.from(arguments));
+    // require(rootFile).call(null, Array.from(arguments));
     // console.log('Array.from(arguments): ', Array.from(arguments));
     // 改造成 在node子进程中调用，可以额外的获取更多的CPU资源， 以便获得更高的性能
       const args =  Array.from(arguments);

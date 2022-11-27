@@ -18,7 +18,7 @@ function getNpmInfo(npmName, registry) {
   const npmInfoUrl = urlJoin(registryUrl, npmName);
   // const npmInfoUrl = urlJoin(registryUrl, testNpmName);
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);
-  return new Promise(resolve => resolve(getCoreData));
+  // return new Promise(resolve => resolve(getCoreData));
   return axios.get(npmInfoUrl).then(response => {
     console.log('请求npm数据信息成功: ');
     if(response.status === 200) {
@@ -39,7 +39,7 @@ function getDefaultRegistry(isOriginal = false) {
 }
 
 async function getNpmVersions(npmName, registry){
-  return versions;
+  // return versions;
   const data = await getNpmInfo(npmName);
   if (data) {
     return Object.keys(data.versions);

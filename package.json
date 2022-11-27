@@ -1,6 +1,6 @@
 {
   "name": "@snowlepoard/snow-cli",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "",
   "main": "core/cli/index.js",
   "scripts": {

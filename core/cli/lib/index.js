@@ -100,7 +100,7 @@ async function core() {
   
   log.success('success! ');
   // log.success2('success2! ');
-  log.end(colors.green('脚手架命令 ---- 执行结束! '));
+  log.end(colors.green('core核心逻辑end ! '));
 }
 
 
