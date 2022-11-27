@@ -24,11 +24,22 @@ class InitCommand extends Command {
       const projectInfo = await this.prepare();
       console.log('准备阶段 拿到的 projectInfo: ', projectInfo);
       // 2、下载模板
-      // 3、安装模板
+      if (projectInfo) {
+        log.verbose(111, projectInfo);
+        // 2、下载模板
+        this.projectInfo = projectInfo;
+        await this.downloadTemplate();
+      }
      
     } catch (e) {
       log.error(e.message)
     }
+  }
+
+  async downloadTemplate () {
+    console.log('this.projectInfo: ', this.projectInfo);
+    console.log('this.template: ', this.template);
+
   }
 
   async prepare() {

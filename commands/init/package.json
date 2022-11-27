@@ -33,7 +33,7 @@
     "@snowlepoard520/request": "file:../../utils/request",
     "colors": "^1.4.0",
     "fs-extra": "^10.1.0",
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.5"
   },
   "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
 }
