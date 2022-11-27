@@ -22,10 +22,8 @@ class InitCommand extends Command {
     try {
       // 1，准备阶段
       const projectInfo = await this.prepare();
-      console.log('准备阶段 拿到的 projectInfo: ', projectInfo);
       // 2、下载模板
       if (projectInfo) {
-        log.verbose(111, projectInfo);
         // 2、下载模板
         this.projectInfo = projectInfo;
         await this.downloadTemplate();
@@ -37,8 +35,8 @@ class InitCommand extends Command {
   }
 
   async downloadTemplate () {
-    console.log('this.projectInfo: ', this.projectInfo);
-    console.log('this.template: ', this.template);
+    console.log('准备阶段 拿到的 projectInfo: ', this.projectInfo);
+    console.log('通过api拿到的模版列表: ', this.template);
 
   }
 
@@ -46,6 +44,7 @@ class InitCommand extends Command {
     console.log('start安装模板准备阶段开始~');
     // 判断项目模板是否存在
     const template = await getProjectTemplate();
+    this.template = template;
     console.log('template: ', template);
      // 1，判断当前目录是否为空
      const localPath = process.cwd();
@@ -116,41 +115,51 @@ class InitCommand extends Command {
       }],
     });
     const projectPrompt = [];
+
     // console.log('type: ', type);
     if (type === TYPE_PROJECT) {
-      projectPrompt.push({
-        type: 'input',
-        name: 'ProjectName',
-        message: "请输入项目名称",
-        default: '',
-        validate: function(v) {
-          const done = this.async();
-          setTimeout(function() {
-            // 1.首字符必须为英文字符
-            // 2.尾字符必须为英文或数字，不能为字符
-            // 3.字符仅允许"-_"
-            if (!isValidName(v)) {
-              done(`请输入合法的项目名称`);
-              return;
-            }
-            done(null, true);
-          }, 0);
+      projectPrompt.push(
+        {
+          type: 'input',
+          name: 'ProjectName',
+          message: "请输入项目名称",
+          default: '',
+          validate: function(v) {
+            const done = this.async();
+            setTimeout(function() {
+              // 1.首字符必须为英文字符
+              // 2.尾字符必须为英文或数字，不能为字符
+              // 3.字符仅允许"-_"
+              if (!isValidName(v)) {
+                done(`请输入合法的项目名称`);
+                return;
+              }
+              done(null, true);
+            }, 0);
+          },
+          filter: function(v) {
+            return v;
+          },
+        }, 
+        {
+          type: 'input',
+          name: 'ProjectVersion',
+          message: "请输入项目版本号",
+          default: '1.0.0',
+          // validate: function(v) {
+          //   return typeof v === 'string';
+          // },
+          // filter: function(v) {
+          //   return v;
+          // }
         },
-        filter: function(v) {
-          return v;
-        },
-      }, {
-        type: 'input',
-        name: 'ProjectVersion',
-        message: "请输入项目版本号",
-        default: '1.0.0',
-        // validate: function(v) {
-        //   return typeof v === 'string';
-        // },
-        // filter: function(v) {
-        //   return v;
-        // }
-      });
+        {
+          type: 'list',
+          name: 'projectTemplate',
+          message: `请选择模板`,
+          choices: this.createTemplateChoice(),
+        }
+      );
     } else if (type === TYPE_COMPONENT) {
       const descriptionPrompt = {
         type: 'input',
@@ -184,16 +193,15 @@ class InitCommand extends Command {
       type,
       ...component,
     };
-    console.log('projectInfo: ', projectInfo);
      // 给用户输出 项目的基本 信息
      return projectInfo;
      
   }
 
   isDirEmpty(localPath) {
-  log.verbose('localPath: ', localPath);
-   log.verbose("path.resolve('.')", path.resolve('.'));
-   log.verbose(__dirname, '__dirname');
+    log.verbose('localPath: ', localPath);
+    log.verbose("path.resolve('.')", path.resolve('.'));
+    log.verbose(__dirname, '__dirname');
    
     let fileList = fs.readdirSync(localPath);
     log.verbose('fileList: ', fileList);
@@ -202,6 +210,13 @@ class InitCommand extends Command {
       !file.startsWith('.') && ['node_modules'].indexOf(file) < 0
     ));
     return !fileList || fileList.length <= 0;
+  }
+
+  createTemplateChoice() {
+    return this.template?.map(item => ({
+      value: item.npmName,
+      name: item.name,
+    }));
   }
 
 }
