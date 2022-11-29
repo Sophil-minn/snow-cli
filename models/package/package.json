@@ -33,7 +33,8 @@
     "fs-extra": "^10.1.0",
     "npminstall": "^6.6.1",
     "path-exists": "^4.0.0",
-    "pkg-dir": "^5.0.0"
+    "pkg-dir": "^5.0.0",
+    "user-home": "^3.0.0"
   },
   "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
 }

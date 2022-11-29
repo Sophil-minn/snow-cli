@@ -2,6 +2,7 @@
 
 const pkgDir =  require('pkg-dir').sync;
 const npminstall = require('npminstall');
+const userHome = require('user-home');
 const fse = require('fs-extra');
 const path = require('path');
 const { isObject } = require('@snowlepoard520/utils');
