@@ -35,8 +35,23 @@ class InitCommand extends Command {
   }
 
   async downloadTemplate () {
-    log.verbose('准备阶段 拿到的 projectInfo: ', this.projectInfo);
+    log.verbose('downloadTemplate 准备阶段 拿到的 projectInfo: ', this.projectInfo);
     log.verbose('模版列表: ', this.template);
+     // 1，通过项目模板API获取项目模板信息
+    // 1.1， 通过egg.js搭建一套后端系统
+    // 1.2 通过npm 存储项目模板
+    // 1.3 将项目模板存储到mongodb数据库中
+    // 1.4 通过egg.js获取mongodb中的数据 并且通过API返回
+    const { packageVersion: myCustomVersion } = this.projectInfo;
+    const { projectTemplate } = this.projectInfo;
+    const templateInfo = this.template.find(item => item.npmName === projectTemplate);
+    const { npmName, version } = templateInfo;
+    // console.log(userHome, 'userHome');
+    const targetPath = path.resolve(userHome, '.snow-cli', 'template');
+    console.log('targetPath-------: ', targetPath);
+    const storeDir = path.resolve(userHome, '.snow-cli', 'template', 'node_modules');
+    console.log('storeDir-----: ', storeDir);
+
   }
 
   async prepare() {

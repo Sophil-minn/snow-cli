@@ -30,9 +30,11 @@
     "@snowlepoard520/command": "file:../../models/command",
     "@snowlepoard520/log": "file:../../utils/log",
     "@snowlepoard520/request": "file:../../utils/request",
+    "@snowlepoard520/package": "file:../../models/package",
     "colors": "^1.4.0",
     "fs-extra": "^10.1.0",
-    "inquirer": "^8.2.5"
+    "inquirer": "^8.2.5",
+    "user-home": "^3.0.0"
   },
   "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
 }
