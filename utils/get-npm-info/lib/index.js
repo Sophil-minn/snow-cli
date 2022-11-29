@@ -3,6 +3,7 @@
 const axios = require('axios');
 const urlJoin = require('url-join');
 const semver = require('semver');
+const log = require('@snowlepoard520/log');
 
 const { getCoreData, versions } = require('./mockData');
 // console.log('getCoreData: ', getCoreData);
@@ -20,7 +21,8 @@ function getNpmInfo(npmName, registry) {
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);
   // return new Promise(resolve => resolve(getCoreData));
   return axios.get(npmInfoUrl).then(response => {
-    console.log(`请求${npmName}npm数据信息成功`);
+    log.verbose('npmInfoUrl', npmInfoUrl, 'response: ', response);
+    log.verbose(`请求${npmName}数据信息成功`);
     if(response.status === 200) {
       // console.log(response, 'response');
       return response.data;
@@ -28,7 +30,7 @@ function getNpmInfo(npmName, registry) {
     return null;
   }).catch(
     err => {
-      console.error('err: ', err);
+      log.verbose('err: ', err);
       return Promise.reject(err);
     }
   );
@@ -41,6 +43,7 @@ function getDefaultRegistry(isOriginal = false) {
 async function getNpmVersions(npmName, registry){
   // return versions;
   const data = await getNpmInfo(npmName);
+  log.verbose('3333333333: ', data);
   if (data) {
     return Object.keys(data.versions);
   } else {
@@ -51,7 +54,7 @@ async function getNpmVersions(npmName, registry){
 
 async function getNpmSemverVersions(baseVersion, npmName, registry) {
   const versions = await getNpmVersions(npmName, registry);
-  console.log(versions, 'versions');
+  log.snow(versions, 'versions');
  //  console.log(baseVersion, 'baseVersion');
   const semverVersions = getSemverVersions(baseVersion, versions);
   // console.log('semverVersions: ', semverVersions);
@@ -63,6 +66,7 @@ async function getNpmSemverVersions(baseVersion, npmName, registry) {
 
 async function getNpmLatestVersion(npmName, registry) {
   let versions = await getNpmVersions(npmName, registry);
+  log.snow('getNpmLatestVersion ---------  versions: ', versions);
   if (versions) {
     return versions.sort(
       (a, b) => {

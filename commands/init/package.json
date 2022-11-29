@@ -1,6 +1,6 @@
 {
   "name": "@snowlepoard/init",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "init",
   "author": "minmin <1056640663@qq.com>",
   "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/core/init#readme",
@@ -28,11 +28,13 @@
   },
   "dependencies": {
     "@snowlepoard520/command": "file:../../models/command",
+    "@snowlepoard520/package": "file:../../models/package",
     "@snowlepoard520/log": "file:../../utils/log",
     "@snowlepoard520/request": "file:../../utils/request",
     "colors": "^1.4.0",
     "fs-extra": "^10.1.0",
-    "inquirer": "^8.2.5"
+    "inquirer": "^8.2.5",
+    "user-home": "^3.0.0"
   },
   "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
 }

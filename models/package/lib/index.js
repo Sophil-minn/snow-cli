@@ -11,6 +11,7 @@ const pathExists = require('path-exists').sync;
 
 class Package {
   constructor(options) {
+    console.log('options: ', options);
     // console.log('isObject: ', isObject(options));
     // console.log('Package constructor')
     if (!options) {
@@ -60,6 +61,7 @@ class Package {
     // 处于缓存模式
     if (this.storeDir) {
       await this.prepare();
+      console.log('prepare: ', 99999);
       return pathExists(this.cacheFilePath);
     } else {
       return pathExists(this.targetPath);
@@ -85,6 +87,7 @@ class Package {
     await this.prepare();
     // 1. 获取最新的npm模块版本号
     const latestPackageVersion = await getNpmLatestVersion(this.packageName);
+    console.log('latestPackageVersion: ', '00000000000');
     // 2. 查询最新版本号对应的路径是否存在
     const latestFilePath = this.getSpecificCacheFilePath(latestPackageVersion);
     console.log(latestFilePath, 'latestFilePath');

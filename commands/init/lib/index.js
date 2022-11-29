@@ -5,11 +5,16 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const fse = require('fs-extra');
 const Command = require('@snowlepoard520/command');
+const Package = require('@snowlepoard520/package');
+const userHome = require('user-home');
 
 const getProjectTemplate = require('./getProjectTemplate');
 
 const TYPE_PROJECT = 'project';
 const TYPE_COMPONENT = 'component';
+
+const SNOW_CLI_TARGET_DIR = '.snow-cli';
+
 
 class InitCommand extends Command {
   init() {
@@ -24,9 +29,9 @@ class InitCommand extends Command {
       const projectInfo = await this.prepare();
       // 2、下载模板
       if (projectInfo) {
-        // 2、下载模板
         this.projectInfo = projectInfo;
         await this.downloadTemplate();
+        
       }
      
     } catch (e) {
@@ -37,14 +42,36 @@ class InitCommand extends Command {
   async downloadTemplate () {
     log.verbose('准备阶段 拿到的 projectInfo: ', this.projectInfo);
     log.verbose('模版列表: ', this.template);
+    console.log(this.projectInfo, '我填写的项目信息');
+    const { packageVersion: myCustomVersion } = this.projectInfo;
+    const { projectTemplate } = this.projectInfo;
+    const templateInfo = this.template.find(item => item.npmName === projectTemplate);
+    const { npmName, version } = templateInfo;
+    const targetPath = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template');
+    const storeDir = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template', 'node_modules');
+    this.templateInfo = templateInfo;
+    log.verbose('templateInfo', this.templateInfo);
+    const templateNpm = new Package({
+      targetPath,
+      storeDir,
+      packageName: npmName,
+      packageVersion: version,
+      myCustomVersion
+    });
+    log.verbose(targetPath, storeDir, npmName, version, templateNpm );
   }
 
   async prepare() {
     console.log('start安装模板准备阶段开始~');
+    // 1，通过项目模板API获取项目模板信息
+    // 1.1， 通过egg.js搭建一套后端系统
+    // 1.2 通过npm 存储项目模板
+    // 1.3 将项目模板存储到mongodb数据库中
+    // 1.4 通过egg.js获取mongodb中的数据 并且通过API返回
     // 判断项目模板是否存在
     const template = await getProjectTemplate();
     this.template = template;
-    console.log('template: ', template);
+    // console.log('template: ', template);
      // 1，判断当前目录是否为空
      const localPath = process.cwd();
      if (!this.isDirEmpty(localPath)) {
@@ -187,6 +214,7 @@ class InitCommand extends Command {
     }
     //  2. 获取组件的基本信息
     const component = await inquirer.prompt(projectPrompt);
+    
     projectInfo = {
       ...projectInfo,
       type,
