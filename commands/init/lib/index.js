@@ -92,14 +92,10 @@ class InitCommand extends Command {
     // 安装依赖
     const { installCommand, startCommnand } = this.templateInfo;
     // 依赖安装
-    const spinner2 = spinnerStart('正在安装依赖...');
     await this.execCommand(installCommand, '依赖安装失败！');
-    spinner2.stop(true);
     // 启动命令执行
-    const spinner3 = spinnerStart('正在启动命令执行...');
     await this.execCommand(startCommnand, '启动执行命令失败！');
     require("child_process").exec('open http://localhost:8080');
-    spinner3.stop(true);
   }
   checkCommand(cmd) {
     if (WHITE_COMMAND.includes(cmd)) {
