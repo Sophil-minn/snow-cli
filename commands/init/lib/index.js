@@ -7,6 +7,7 @@ const fse = require('fs-extra');
 const Command = require('@snowlepoard520/command');
 const Package = require('@snowlepoard520/package');
 const userHome = require('user-home');
+const { spinnerStart, sleep, execAsync } = require('@snowlepoard520/utils');
 
 const getProjectTemplate = require('./getProjectTemplate');
 
@@ -59,6 +60,43 @@ class InitCommand extends Command {
       myCustomVersion
     });
     log.verbose(targetPath, storeDir, npmName, version, templateNpm );
+    // 如果不存在直接安装npm， 如果存在直接更新
+    if (!await templateNpm.exists()) {
+      console.log('下载模板 start');
+      const spinner = spinnerStart('正在下载模板...');
+      await sleep(5000);
+      try {
+        await templateNpm.install();
+        if (await templateNpm.exists()) {
+          log.success('下载模板成功');
+        }
+      } catch (error) {
+        console.log('下载模板出错了～');
+        throw error;
+      } finally {
+        spinner.stop(true);
+        if (await templateNpm.exists()) {
+          log.success('下载模板end');
+        }
+      }
+    } else {
+      console.log('更新 start');
+      const spinner = spinnerStart('正在更新模板...');
+      await sleep(5000);
+      try {
+        await templateNpm.update();
+        console.log('更新模板start～');
+        spinner.stop(true);
+      } catch (error) {
+        throw error;
+      } finally {
+        spinner.stop(true);
+      if (await templateNpm.exists()) {
+        log.success('更新模板成功');
+      }
+      console.log('更新 end');
+      }
+    }
     
   }
 
