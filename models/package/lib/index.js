@@ -5,14 +5,14 @@ const npminstall = require('npminstall');
 const userHome = require('user-home');
 const fse = require('fs-extra');
 const path = require('path');
-const { isObject } = require('@snowlepoard520/utils');
+const { isObject, spinnerStart } = require('@snowlepoard520/utils');
 const formatPath = require('@snowlepoard520/format-path');
+const log = require('@snowlepoard520/log');
 const { getDefaultRegistry, getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
 const pathExists = require('path-exists').sync;
-
 class Package {
   constructor(options) {
-    console.log('options: ', options);
+    log.verbose('options: ', options);
     // console.log('isObject: ', isObject(options));
     // console.log('Package constructor')
     if (!options) {
@@ -61,17 +61,22 @@ class Package {
   async exists() {
     // 处于缓存模式
     if (this.storeDir) {
+      const spinner = spinnerStart('package存在缓存 准备中...');
       await this.prepare();
-      console.log('prepare: ', 99999);
+      log.verbose('prepare: ', 99999);
+      spinner.stop(true);
       return pathExists(this.cacheFilePath);
     } else {
       return pathExists(this.targetPath);
     }
+    
   }
 
   // 安装package
   async install() {
+    const spinner = spinnerStart('安装package 准备中...');
     await this.prepare();
+    spinner.stop(true);
     return npminstall({
       root: this.targetPath,
       storeDir: this.storeDir,
@@ -85,16 +90,18 @@ class Package {
   // 更新package
   async update() {
     // console.log('package update');
+    const spinner = spinnerStart('安装package 准备中...');
     await this.prepare();
+    spinner.stop(true);
     // 1. 获取最新的npm模块版本号
     const latestPackageVersion = await getNpmLatestVersion(this.packageName);
-    console.log('latestPackageVersion: ', '00000000000');
+    log.verbose('最新的版本号latestPackageVersion: ', latestPackageVersion);
     // 2. 查询最新版本号对应的路径是否存在
     const latestFilePath = this.getSpecificCacheFilePath(latestPackageVersion);
-    console.log(latestFilePath, 'latestFilePath');
+    log.verbose(latestFilePath, '最新版本号对应的路径');
     // 3. 如果不存在，则直接安装最新版本
     if (!pathExists(latestFilePath)) {
-      console.log('我需要更新package');
+      log.verbose('我需要更新package');
       await npminstall({
         root: this.targetPath,
         storeDir: this.storeDir,
@@ -105,7 +112,7 @@ class Package {
       })
       this.packageVersion = latestPackageVersion;
     } else {
-      console.log('不需要更新，我是最新的包');
+      console.log('不需要更新，我已经是最新的了');
     }
   }
 

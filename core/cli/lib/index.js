@@ -101,7 +101,7 @@ async function core() {
 
   log.snow('success! ');
   // log.snow2('success2! ');
-  log.end(colors.green('core核心逻辑end ! '));
+  log.end(colors.green('请耐心等待... '));
 }
 
 

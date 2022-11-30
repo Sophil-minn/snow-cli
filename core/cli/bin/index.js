@@ -11,17 +11,14 @@ log.snow(colors.bgBlack(colors.rainbow('welcome to snow-cli  -  snow lepoard Jus
 log.snow(colors.brightGreen('contact me on github@Sophil-minn'));
 
 async function run() {
-  let spinner;
   if (importLocal(__filename)) {
     log.snow(colors.bgBlack(colors.brightGreen('you are using snow-cli local version +++++++++++++')))
   } else {
     // console.log(77777)
     log.snow(colors.bgBlack(colors.green('now using snow-cli development version ----------- ')))
-    spinner = spinnerStart('执行流程准备中..., 请稍等...');
-    await sleep(5000);
+    log.snow('执行流程准备中..., 请稍等...');
     require('../lib')(process.argv.slice(2));
   }
-  spinner.stop(true);
   console.log('today is:', (new Date() + '').slice(0, 10))
 }
 

@@ -27,9 +27,10 @@
     "url": "https://github.com/Sophil-minn/snow-cli/issues"
   },
   "dependencies": {
-    "@snowlepoard520/format-path": "^1.4.0",
+    "@snowlepoard520/format-path": "file:../../utils/format-path",
     "@snowlepoard520/get-npm-info": "file:../../utils/get-npm-info",
-    "@snowlepoard520/utils": "^1.4.0",
+    "@snowlepoard520/log": "file:../../utils/log",
+    "@snowlepoard520/utils": "file:../../utils/utils",
     "fs-extra": "^10.1.0",
     "npminstall": "^6.6.1",
     "path-exists": "^4.0.0",
