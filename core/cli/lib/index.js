@@ -89,6 +89,7 @@ async function core() {
   try {
     log.prepare('命令执行流程准备阶段-----------start ~ ');
     await prepare();
+    
     log.prepare('命令执行流程准备阶段-----------end ~ ');
     log.command('命令注册阶段 start ~ ');
     registerCommand();
@@ -97,7 +98,7 @@ async function core() {
     log.verbose('core/cli/lib/index.js 捕获的异常');
     log.error(e);
   } 
-  
+
   log.snow('success! ');
   // log.snow2('success2! ');
   log.end(colors.green('core核心逻辑end ! '));
