@@ -20,12 +20,12 @@ exports.templateList = [
     tag: [ 'project' ]
   },
   {
-    version: '1.1.0',
+    version: '1.1.5',
     name: 'vue自定义极简模板',
-    npmName: 'snow-cli-template-custom-vue2',
+    npmName: 'snow-cli-template-custom',
     type: 'custom',
     installCommand: 'npm install',
-    startCommnand: 'npm start',
+    startCommnand: 'npm run serve',
     ignore: [ '**/public/**' ],
     tag: [ 'project' ]
   },

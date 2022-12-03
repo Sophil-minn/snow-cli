@@ -40,8 +40,8 @@ class InitCommand extends Command {
       if (projectInfo) {
         this.projectInfo = projectInfo;
         await this.downloadTemplate();
-         // 3、安装模板
-         await this.installTemplate();
+        // 3、安装模板
+        await this.installTemplate();
       }
      
     } catch (e) {
@@ -175,13 +175,20 @@ class InitCommand extends Command {
         const options = {
           templateInfo: this.templateInfo,
           projectInfo: this.projectInfo,
-          sourcePath: templatePath,
+          templatePath: templatePath,
           targetPath: process.cwd(),
         };
         const code = `require('${rootFile}')(${JSON.stringify(options)})`;
         log.verbose('code', code);
         await execAsync('node', ['-e', code], { stdio: 'inherit', cwd: process.cwd() });
         log.success('自定义模板安装成功');
+         // 安装依赖
+        const { installCommand, startCommnand } = this.templateInfo;
+        // 依赖安装
+        await this.execCommand(installCommand, '依赖安装失败！');
+        // 启动命令执行
+        await this.execCommand(startCommnand, '启动执行命令失败！');
+
       } else {
         throw new Error('自定义模板入口文件不存在！');
       }
