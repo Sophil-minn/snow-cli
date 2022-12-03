@@ -4,6 +4,7 @@ const path = require('path');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const fse = require('fs-extra');
+const semver = require('semver');
 const glob = require('glob');
 const ejs = require('ejs');
 const Command = require('@snowlepoard520/command');
@@ -12,6 +13,7 @@ const userHome = require('user-home');
 const { spinnerStart, sleep, execAsync } = require('@snowlepoard520/utils');
 
 const getProjectTemplate = require('./getProjectTemplate');
+const { threadId } = require('worker_threads');
 
 const TYPE_PROJECT = 'project';
 const TYPE_COMPONENT = 'component';
@@ -27,7 +29,6 @@ const WHITE_COMMAND = ['npm', 'cnpm'];
 class InitCommand extends Command {
   init() {
     this.projectName = this._argv[0] || '';
-    console.log('this.projectName: ', this.projectName);
     this.force = !!this._cmd.force;
     log.verbose(' this.force: ',  this.force);
   }
@@ -76,6 +77,7 @@ class InitCommand extends Command {
     await sleep();
     const targetPath = process.cwd();
     try {
+      console.log(this.templateNpm.cacheFilePath, 'this.templateNpm.cacheFilePath');
       const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template');
       fse.ensureDirSync(templatePath);
       fse.ensureDirSync(targetPath);
@@ -187,16 +189,25 @@ class InitCommand extends Command {
 
   async downloadTemplate () {
     log.verbose('准备阶段 拿到的 projectInfo: ', this.projectInfo);
-    log.verbose('模版列表: ', this.template);
-    console.log(this.projectInfo, '我填写的项目信息');
+    log.snow('模版列表: ', this.template);
+    console.log(this.projectInfo, '我填写的信息');
     const { packageVersion: myCustomVersion } = this.projectInfo;
     const { projectTemplate } = this.projectInfo;
-    const templateInfo = this.template.find(item => item.npmName === projectTemplate);
+    if (!projectTemplate) {
+      log.snow("模板不存在!");
+      process.exit(1);
+    }
+    const templateInfo = this.template?.find(item => item.npmName === projectTemplate);
+    log.snow('templateInfo', templateInfo);
+    if (!templateInfo) {
+      log.snow("模版列表为空!");
+      process.exit(1);
+    }
     const { npmName, version } = templateInfo;
     const targetPath = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template');
     const storeDir = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template', 'node_modules');
     this.templateInfo = templateInfo;
-    log.verbose('templateInfo', this.templateInfo);
+    
     const templateNpm = new Package({
       targetPath,
       storeDir,
@@ -326,51 +337,65 @@ class InitCommand extends Command {
       }],
     });
     const projectPrompt = [];
-
-    // console.log('type: ', type);
-    if (type === TYPE_PROJECT) {
-      projectPrompt.push(
-        {
-          type: 'input',
-          name: 'ProjectName',
-          message: "请输入项目名称",
-          default: '',
-          validate: function(v) {
-            const done = this.async();
-            setTimeout(function() {
-              // 1.首字符必须为英文字符
-              // 2.尾字符必须为英文或数字，不能为字符
-              // 3.字符仅允许"-_"
-              if (!isValidName(v)) {
-                done(`请输入合法的项目名称`);
-                return;
-              }
-              done(null, true);
-            }, 0);
-          },
-          filter: function(v) {
-            return v;
-          },
-        }, 
-        {
-          type: 'input',
-          name: 'ProjectVersion',
-          message: "请输入项目版本号",
-          default: '1.0.0',
-          // validate: function(v) {
-          //   return typeof v === 'string';
-          // },
-          // filter: function(v) {
-          //   return v;
-          // }
+    log.verbose('选择创建的类型: ', type);
+    const title = type === TYPE_PROJECT ? '项目' : '组件';
+    console.log('this.template: ', this.template);
+    this.template = [...this.template].filter(template =>
+      template?.tag?.includes(type));
+    if (!this.template || this.template.length === 0) {
+      this.template = [{name: '没有拿到合适到模版啊', value:'我没有合适到模版啊'}];
+    }
+  
+    projectPrompt.push(
+      {
+        type: 'input',
+        name: 'ProjectName',
+        message: `请输入${title}名称`,
+        default: '',
+        validate: function(v) {
+          const done = this.async();
+          setTimeout(function() {
+            // 1.首字符必须为英文字符
+            // 2.尾字符必须为英文或数字，不能为字符
+            // 3.字符仅允许"-_"
+            if (!isValidName(v)) {
+              done(`请输入合法的${title}名称`);
+              return;
+            }
+            done(null, true);
+          }, 0);
         },
-        {
-          type: 'list',
-          name: 'projectTemplate',
-          message: `请选择模板`,
-          choices: this.createTemplateChoice(),
-        }
-      );
+        filter: function(v) {
+          return v;
+        },
+      }, 
+      {
+        type: 'input',
+        name: 'ProjectVersion',
+        message: `请输入${title}版本号`,
+        default: '1.0.0',
+        // validate: function(v) {
+        //   return typeof v === 'string';
+        // },
+        // filter: function(v) {
+        //   return v;
+        // }
+      },
+      {
+        type: 'list',
+        name: 'projectTemplate',
+        message:`请选择${title}模板`,
+        choices: this.createTemplateChoice(),
+      }
+    );
+    if (type === TYPE_PROJECT) {
+     // 2. 获取项目的基本信息
+     const project = await inquirer.prompt(projectPrompt);
+     projectInfo = {
+       ...projectInfo,
+       type,
+       ...project,
+     };
     } else if (type === TYPE_COMPONENT) {
       const descriptionPrompt = {
         type: 'input',
@@ -380,31 +405,34 @@ class InitCommand extends Command {
         validate: function(v) {
           const done = this.async();
           setTimeout(function() {
-            if (!(!!semver.valid(v))) {
-              done('请输入合法的版本号');
+            if (!v) {
+              done('请输入组件描述信息');
               return;
             }
             done(null, true);
           }, 0);
         },
-        filter: function(v) {
-          if (!!semver.valid(v)) {
-            return semver.valid(v);
-          } else {
-            return v;
-          }
-        },
       };
       projectPrompt.push(descriptionPrompt);
+      //  2. 获取组件的基本信息
+      const component = await inquirer.prompt(projectPrompt);
+      projectInfo = {
+        ...projectInfo,
+        type,
+        ...component,
+      };
     }
-    //  2. 获取组件的基本信息
-    const component = await inquirer.prompt(projectPrompt);
-    
-    projectInfo = {
-      ...projectInfo,
-      type,
-      ...component,
-    };
+    // 生成className
+    if (projectInfo.projectName) {
+      projectInfo.name = projectInfo.projectName;
+      projectInfo.className = require('kebab-case')(projectInfo.projectName).replace(/^-/, '');
+    }
+    if (projectInfo.projectVersion) {
+      projectInfo.version = projectInfo.projectVersion;
+    }
+    if (projectInfo.componentDescription) {
+      projectInfo.description = projectInfo.componentDescription;
+    }
      // 给用户输出 项目的基本 信息
      return projectInfo;
      
@@ -436,7 +464,7 @@ class InitCommand extends Command {
 function init(argv) {
   // log.info('argv: ', argv);
   // 环境变量 存取targetPath
-  log.snow('通过环境变量获取targetPath: ', process.env.CLI_TARGET_PATH);
+  log.verbose('通过环境变量获取targetPath: ', process.env.CLI_TARGET_PATH);
   return new InitCommand(argv);
 }
 

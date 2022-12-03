@@ -57,6 +57,6 @@ exports.templateList = [
     installCommand: 'npm install',
     startCommnand: 'npm run start',
     ignore: [ '**/public/**' ],
-    tag: [ 'project' ]
+    tag: [ 'component' ]
   },
 ]

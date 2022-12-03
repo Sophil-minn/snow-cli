@@ -37,6 +37,7 @@
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
     "inquirer": "^8.2.5",
+    "kebab-case": "^1.0.2",
     "user-home": "^3.0.0"
   },
   "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
