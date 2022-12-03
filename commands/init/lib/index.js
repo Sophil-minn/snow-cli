@@ -204,8 +204,8 @@ class InitCommand extends Command {
       process.exit(1);
     }
     const { npmName, version } = templateInfo;
-    const targetPath = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template');
-    const storeDir = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template', 'node_modules');
+    const targetPath = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'dependencies');
+    const storeDir = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'dependencies', 'node_modules');
     this.templateInfo = templateInfo;
     
     const templateNpm = new Package({
@@ -339,7 +339,6 @@ class InitCommand extends Command {
     const projectPrompt = [];
     log.verbose('选择创建的类型: ', type);
     const title = type === TYPE_PROJECT ? '项目' : '组件';
-    console.log('this.template: ', this.template);
     this.template = [...this.template].filter(template =>
       template?.tag?.includes(type));
     if (!this.template || this.template.length === 0) {

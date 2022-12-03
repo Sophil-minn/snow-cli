@@ -32,7 +32,6 @@
     "@snowlepoard520/init": "file:../../commands/init",
     "@snowlepoard520/log": "file:../../utils/log",
     "@snowlepoard520/utils": "file:../../utils/utils",
-    "color": "^4.2.3",
     "colors": "^1.4.0",
     "commander": "^6.2.1",
     "dotenv": "^16.0.3",

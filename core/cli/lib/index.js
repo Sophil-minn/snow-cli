@@ -10,24 +10,16 @@ const userHome = require('user-home');
 const pathExists = require('path-exists').sync;
 const rootCheck = require('root-check');
 const log = require('@snowlepoard520/log');
-const init = require('@snowlepoard520/init');
 const exec = require('@snowlepoard520/exec');
+const { getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
 const constant = require('./const');
 const dotenv = require('dotenv');
 
-// log.verbose(colors.red('这是一段红色的文字'))
-
 const commander = require('commander');
-
-let args;
-// 改变log.level方案一,不推荐
-// checkInputArgs();
-// const log = require('@snowlepoard520/log');
-// 实例化一个commnader
 const program = new commander.Command();
 
 function registerCommand() {
-  log.verbose('registerCommand: ', 1);
+  log.verbose('registerCommand: ', 'start');
   // log.verbose('pkg?.bin: ', pkg);
   program
     .name(`${Object.keys(pkg?.bin)[0]}----minnnn`)
@@ -37,7 +29,7 @@ function registerCommand() {
     .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '')
 
   program.on('option:debug', function() {
-    // log.verbose(program.rawArgs, 999999);
+    log.verbose(program.rawArgs, 'option:debug');
     if (program.opts().debug) {
       process.env.LOG_LEVEL = 'verbose';
       if(program.rawArgs?.length < 4) {
@@ -47,15 +39,14 @@ function registerCommand() {
       process.env.LOG_LEVEL = 'info';
     }
     log.level = process.env.LOG_LEVEL;
-    log.verbose('test', 'program.on');
+    log.verbose('debug mode');
   });
 
   program.on('option:targetPath', function () {
-    log.warn(colors.red('监听targetPath属性的输入--------'))
-    log.warn(colors.red('targetPath: ', program.targetPath));
+    log.verbose(colors.red('监听targetPath属性'))
+    log.verbose(colors.red('targetPath: ', program.targetPath));
     process.env.CLI_TARGET_PATH = program.targetPath;
   });
-
 
   // 对未知命令监听
   program.on('command:*', function(obj) {
@@ -67,45 +58,37 @@ function registerCommand() {
   });
   // 没有输入命令时,打印帮助文档
   if(process.argv.length < 3) {
-    program.outputHelp();
-    log.verbose();
+    console.log(colors.red('⏰: 命令后面需要输入参数...'));
+    // program.outputHelp();
   } 
-
-  // log.verbose(program, 567890);
+  log.verbose(program, '没有输入命令');
   program 
     .command('init [projectName]')
     .option('-f, --force', '是否 强制初始化项目', false)
-  .action(exec)
+    .action(exec)
   // .action((projectName, cmdObj) => {
   //   log.verbose('init', projectName, cmdObj);
   // })
   // program.parse(process.argv) 表示对传入 Node.js 的命令行参数进行解析。
   // 其中 process.argv 是 Node.js 进程接受到的原始的参数。
-  log.verbose('registerCommand: ', 0);
+  log.verbose('registerCommand: ', 'end');
   program.parse(process.argv);
 }
 
 async function core() {
   try {
-    log.prepare('命令执行流程准备阶段-----------start ~ ');
     await prepare();
-    
-    log.prepare('命令执行流程准备阶段-----------end ~ ');
-    log.command('命令注册阶段 start ~ ');
     registerCommand();
-    log.command('命令命令阶段 end ~ ');
   } catch (e) {
     log.verbose('core/cli/lib/index.js 捕获的异常');
     log.error(e);
   } 
-
-  log.snow('success! ');
-  // log.snow2('success2! ');
-  log.end(colors.green('请耐心等待... '));
+  log.verbose('core end...! ');
 }
 
 
 async function prepare() {
+  log.verbose('准备阶段-----------start ~ ');
   // 检查版本号
   checkPkgVersion();
   // 检查node版本 下沉到command里去
@@ -121,15 +104,12 @@ async function prepare() {
   checkEnv();
   // 检查是否为最新版本, 进行全局更新
   await checkGlobalUpdate();
+  log.verbose('准备阶段-----------end ~ ');
 }
 
 // 检查版本号
 function checkPkgVersion() {
-  // TODO
-  log.verbose( '版本号 ：', pkg.version);
-  log.snow('检查版本号: ',pkg.name, pkg.version);
-  // log();
-
+  log.verbose('当前版本: ',pkg.name, pkg.version);
 }
 
 // 下沉到command中去
@@ -149,43 +129,25 @@ function checkRoot() {
   log.verbose('登陆者何人?', process.geteuid())
   rootCheck(); // root 降级
   log.verbose('降级后,登陆者何人?', process.geteuid())
-  log.snow('检查root启动,并进行用户权限降级');
+  log.verbose('检查是否root启动,并进行用户权限降级');
 }
 
-// function checkInputArgs() {
-//   const minimist = require('minimist');
-//   args = minimist(process.argv.slice(2));
-//   log.verbose('args: ', args);
-//   checkArgs();
-//   log.snow('检查入参', args)
-// }
-
-// function checkArgs() {
-//   if (args.debug) {
-//     process.env.LOG_LEVEL = 'verbose';
-//   } else {
-//     process.env.LOG_LEVEL = 'info';
-//   }
-//   // 改变log.level方案二,推荐
-//   log.level =  process.env.LOG_LEVEL;
-// }
-
 function checkUserHome() {
-  log.snow('检查用户主目录: ', userHome);
+  log.verbose('检测到的用户主目录: ', userHome);
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red('当前登陆用户主目录不存在！'))
   }
 }
 
 function checkEnv() {
+  log.verbose('检查环境变量: ');
   const dotenvPath = path.resolve(userHome, '.env');
-  // log.verbose('dotenvPath: ', dotenvPath);
+  log.verbose('dotenvPath: ', dotenvPath);
   if (pathExists(dotenvPath)) {
-    dotenv.config({path: dotenvPath});
+    dotenv.config({ path: dotenvPath });
   }
-  log.snow('检查环境变量: ');
+  // 生成环境配置
   createDefaultConfig();
-  // log.verbose('环境变量: ', config, process.env.CLI_HOME_PATH);
 }
 
 function createDefaultConfig() {
@@ -194,10 +156,10 @@ function createDefaultConfig() {
   }
   if (process.env.CLI_HOME) {
     cliConfig['cliHome'] = path.join(userHome, process.env.CLI_HOME);
-    log.snow('通过配置文件拿到环境变量: ', process.env.CLI_HOME);
+    log.verbose('通过配置文件拿到环境变量: ', process.env.CLI_HOME);
   } else {
     cliConfig['cliHome'] = path.join(userHome, constant.DEFAULT_CLI_HOME);
-    log.snow('默认环境变量: ', constant.DEFAULT_CLI_HOME);
+    log.verbose('使用默认环境变量: ', constant.DEFAULT_CLI_HOME);
   }
   // 赋值给环境变量
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
@@ -205,42 +167,21 @@ function createDefaultConfig() {
 }
 
 async function checkGlobalUpdate() {
-  log.snow('检查是否为最新版本, 进行全局更新');
-  const { getNpmInfo } = require('@snowlepoard520/get-npm-info');
+  log.verbose('检查是否为最新版本, 如果否则进行全局更新');
   //1. 获取当前版本和模块
   const currentVersion = pkg.version;
   const npmName = pkg.name;
   // const testNpmName = '@snowlepoard520/core'
-  const testNpmName2 = '@imooc-cli/core'
-  log.warn('正在调用npm API, 获取包信息 ...  稍等');
-  //2. 调用npm API, 获取包信息
-  const data = await getNpmInfo(npmName);
-  // log.verbose('data: ', data);
-  // 获取所有的版本号
-  const { getNpmVersions, getNpmSemverVersions, getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
-  const versions = await getNpmVersions(npmName);
-  // log.verbose(npmName, 'versions: ', versions);
-  //3. 提取所有版本号，比对那些版本号是大于当前版本号
-  // const semverVersions = await getNpmSemverVersions(currentVersion, testNpmName);
-  // const allVersions = await getNpmVersions(npmName);
-  // log.verbose(testNpmName2, 'allVersions: ', allVersions);
-  const semverVersions = await getNpmSemverVersions(currentVersion, npmName);
-  // log.verbose('semverVersions: ', semverVersions);
-
-  //4. 获取最新的版本号，提示用户更新到该版本
-  log.warn(`获取${npmName}最新的版本号...  稍等`);
+  // 获取最新的版本号，提示用户更新到该版本
+  log.verbose(`获取${npmName}最新的版本号...  稍等`);
   const lastVersion = await getNpmLatestVersion(npmName);
-  log.snow('npm最新的版本号: ', lastVersion);
-  log.snow('当前开发版本号: ', currentVersion);
+  log.verbose('npm最新的版本号: ', lastVersion);
+  log.verbose('当前开发版本号: ', currentVersion);
   if (lastVersion && semver.gt(lastVersion, currentVersion)) {
     log.warn(colors.yellow(`请手动更新${npmName}, 当前版本：${currentVersion} ， 最新版本： ${lastVersion}
     更新命令： npm install -g ${npmName}
     `));
   } else {
-    log.warn('当前版本号开发中... 待发布', );
+    log.verbose('当前版本不需要更新', );
   }
-
-
-
-  
 }

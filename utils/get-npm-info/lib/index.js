@@ -9,8 +9,8 @@ const { getCoreData, versions } = require('./mockData');
 // console.log('getCoreData: ', getCoreData);
 
 function getNpmInfo(npmName, registry) {
-  // console.log('registry: ', registry);
-  // console.log('npmName: ', npmName);
+  log.verbose('registry: ', registry);
+  log.verbose('npmName: ', npmName);
   if (!npmName) {
     return null;
   }
@@ -21,7 +21,7 @@ function getNpmInfo(npmName, registry) {
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);
   // return new Promise(resolve => resolve(getCoreData));
   return axios.get(npmInfoUrl).then(response => {
-    log.verbose('npmInfoUrl', npmInfoUrl, 'response: ', response);
+    log.verbose('npmInfoUrl', npmInfoUrl);
     log.verbose(`请求${npmName}数据信息成功`);
     if(response.status === 200) {
       // console.log(response, 'response');
@@ -41,32 +41,35 @@ function getDefaultRegistry(isOriginal = false) {
 }
 
 async function getNpmVersions(npmName, registry){
-  // return versions;
   const data = await getNpmInfo(npmName);
-  log.verbose('3333333333: ', data);
   if (data) {
     return Object.keys(data.versions);
   } else {
     return [];
   }
 }
-
-
+// 获取大于baseVersion当前版本号所有版本
+function getSemverVersions(baseVersion, versions) {
+  versions = versions
+  .filter(version => {
+    return semver.satisfies(version, `^${baseVersion}`);
+  })
+  .sort((a, b) => {
+    return semver.gt(b, a) ? 0 : -1;
+  });
+  return versions;
+}
+// 提取所有版本号，比对那些版本号是大于baseVersion当前版本号
 async function getNpmSemverVersions(baseVersion, npmName, registry) {
   const versions = await getNpmVersions(npmName, registry);
-  log.snow(versions, 'versions');
- //  console.log(baseVersion, 'baseVersion');
+  log.verbose(versions, 'versions');
   const semverVersions = getSemverVersions(baseVersion, versions);
-  // console.log('semverVersions: ', semverVersions);
-  // if (semverVersions && semverVersions.length ) {
-  //    return semverVersions[0];
-  // }
   return semverVersions;
  }
 
 async function getNpmLatestVersion(npmName, registry) {
   let versions = await getNpmVersions(npmName, registry);
-  log.snow('getNpmLatestVersion ---------  versions: ', versions);
+  log.verbose('getNpmLatestVersion ---------  versions: ', versions);
   if (versions) {
     return versions.sort(
       (a, b) => {
@@ -78,16 +81,7 @@ async function getNpmLatestVersion(npmName, registry) {
   return null;
 }
 
-function getSemverVersions(baseVersion, versions) {
-  versions = versions
-  .filter(version => {
-    return semver.satisfies(version, `^${baseVersion}`);
-  })
-  .sort((a, b) => {
-    return semver.gt(b, a) ? 0 : -1;
-  });
-  return versions;
-}
+
 
 module.exports = { 
   getNpmInfo,

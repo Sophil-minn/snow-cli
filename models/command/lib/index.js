@@ -15,9 +15,6 @@ class Command {
     if (!Array.isArray(argv)) {
       throw new Error('参数必须为数组！');
     }
-    // if (!isObject(argv)) {
-    //   throw new Error('参数必须为对象！');
-    // }
     if (argv.length < 1) {
       throw new Error('参数列表为空！');
     }
@@ -35,22 +32,21 @@ class Command {
   }
 
   initArgs() {
-    this._cmd = this._argv[this._argv.length - 1];
-    this._argv = this._argv.slice(0, this._argv.length -1);
-    // console.log(this.cmd, this._argv, 'this._argvthis._argvthis._argv');
+    log.verbose('initArgs', this._argv);
+    this._cmd = this._argv[this._argv?.length - 1];
+    this._argv = this._argv.slice(0, this._argv?.length -1);
   }
 
   checkNodeVersion() {
     // 获取当前版本号
-    log.verbose(process.version, '当前node版本号');
-    log.snow('检查node版本', process.version);
+    log.verbose('检查node版本', process.version);
     const currentVersion = process.version;
     const lowestVersion = LOWEST_NODE_VERSION;
     // 比对最低版本号
     if (!semver.gte(currentVersion, lowestVersion)) {
       throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
     } else {
-      log.snow('当前版本号满足本次需要!');
+      log.snow(`当前nodejs版本号为${currentVersion}!`);
     }
 
   }
