@@ -79,6 +79,7 @@ class InitCommand extends Command {
     try {
       console.log(this.templateNpm.cacheFilePath, 'this.templateNpm.cacheFilePath');
       const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template');
+      console.log('templatePath:------------ ', templatePath);
       fse.ensureDirSync(templatePath);
       fse.ensureDirSync(targetPath);
       fse.copySync(templatePath, targetPath);
@@ -167,6 +168,7 @@ class InitCommand extends Command {
     // 查询自定义模板的入口文件
     if (await this.templateNpm.exists()) {
       const rootFile = this.templateNpm.getRootFilePath();
+      console.log('rootFile------: ', rootFile);
       if (fs.existsSync(rootFile)) {
         log.notice('开始执行自定义模板');
         const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template');
@@ -204,8 +206,8 @@ class InitCommand extends Command {
       process.exit(1);
     }
     const { npmName, version } = templateInfo;
-    const targetPath = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'dependencies');
-    const storeDir = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'dependencies', 'node_modules');
+    const targetPath = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template');
+    const storeDir = path.resolve(userHome, SNOW_CLI_TARGET_DIR, 'template', 'node_modules');
     this.templateInfo = templateInfo;
     
     const templateNpm = new Package({
@@ -342,7 +344,7 @@ class InitCommand extends Command {
     this.template = [...this.template].filter(template =>
       template?.tag?.includes(type));
     if (!this.template || this.template.length === 0) {
-      this.template = [{name: '没有拿到合适到模版啊', value:'我没有合适到模版啊'}];
+      this.template = [{name: '没有拿到合适到模版', value:'没有合适到模版'}];
     }
   
     projectPrompt.push(

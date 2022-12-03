@@ -133,13 +133,15 @@ class Package {
         // 3、寻找main/lib
         if (pkgFile && pkgFile?.main) {
           // 4、路径的兼容（macOS/windows）
-          return formatPath(path.resolve(dir, pkgFile.main));
+          return  formatPath(path.resolve(dir, pkgFile.main));
         }
+        return pkgFile;
       }
       return null;
     }
-    console.log('this.cacheFilePath: ', this.cacheFilePath);
     console.log('this.storeDir=========: ', this.storeDir);
+    // console.log('this.cacheFilePath: ', this.cacheFilePath);
+
     // 使用缓存的时候
     if (this.storeDir) {
       return _getRootFile(this.cacheFilePath);
