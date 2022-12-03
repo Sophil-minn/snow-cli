@@ -37,10 +37,12 @@ class Package {
   }
 
   async prepare() {
+    console.log('this.storeDir: ', this.storeDir);
     if (this.storeDir && !pathExists(this.storeDir)) {
       console.log('生成目录：');
       fse.mkdirpSync(this.storeDir);
     }
+    console.log('this.storeDir: ', this.packageVersion);
     if (this.packageVersion === 'latest') {
       this.packageVersion = await getNpmLatestVersion(this.packageName);
     }
@@ -50,6 +52,7 @@ class Package {
   }
 
   get cacheFilePath() {
+    console.log(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`, 88888888);
     return path.resolve(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`);
   }
 
@@ -118,11 +121,12 @@ class Package {
 
   // 获取入口文件的路径
   getRootFilePath() {
+    console.log('-------------getRootFilePath--------------')
     function _getRootFile(targetPath){
       // 1、获取package.json所在目录- pkg-dir
       // console.log(await packageDirectory(this.targetPath));
       const dir = pkgDir(targetPath);
-      // console.log(dir, 'dir');
+      console.log(dir, 'dir-------');
       if (dir) {
         // 2、读取package.json
         const pkgFile = require(path.resolve(dir, 'package.json'));
@@ -134,6 +138,8 @@ class Package {
       }
       return null;
     }
+    console.log('this.cacheFilePath: ', this.cacheFilePath);
+    console.log('this.storeDir=========: ', this.storeDir);
     // 使用缓存的时候
     if (this.storeDir) {
       return _getRootFile(this.cacheFilePath);
