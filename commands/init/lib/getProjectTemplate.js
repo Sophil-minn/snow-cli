@@ -10,12 +10,13 @@ async function getTemplate () {
 
   try {
     result = await request({
+      
       url: '/snow/template'
     });
     log.verbose('/snow/template ------  result: ', result);
   } catch (error) {
-    log.warnner(colors.brightYellow('⏰: 请求http://mac.minn.snowlepoard:7001/ api接口获取模版列表失败~'));
-    log.warnner(colors.brightWhite('提示: 正在启用兜底mock数据'));
+    log.verbose(colors.brightYellow('⏰: 请求http://mac.minn.snowlepoard:7001/ api接口获取模版列表失败~'));
+    log.verbose(colors.brightWhite('提示: 正在启用兜底mock数据'));
     // log.warnner(colors.brightRed('启用兜底mock数据'));
     // log.warnner(colors.brightBlue('请求http://mac.minn.snowlepoard:7001/本地api接口失败'));
     // log.warnner(colors.brightCyan('请求http://mac.minn.snowlepoard:7001/本地api接口失败'));
