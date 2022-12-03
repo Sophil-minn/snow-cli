@@ -122,7 +122,7 @@ function checkPkgVersion() {
 //   if (!semver.gte(currentVersion, lowestVersion)) {
 //     throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
 //   }
-//   log.snow('检查node版本', process.version);
+//   log.verbose('检查node版本', process.version);
 // }
 
 function checkRoot() {

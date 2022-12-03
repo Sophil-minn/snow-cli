@@ -78,7 +78,7 @@ async function exec() {
     //   // const code = ` require(${rootFile});`;
     //   // console.log(code, 'c');
     //   // win sp.spawn('cmd', ['/c', 'node, '-e', code]);
-      console.log('child process.cwd()-----');
+      log.verbose('child process.cwd()-----');
       const child = spawn('node', ['-e', code], {
         cwd: process.cwd(),
         stdio: 'inherit'

@@ -2,7 +2,6 @@
 
 const pkgDir =  require('pkg-dir').sync;
 const npminstall = require('npminstall');
-const userHome = require('user-home');
 const fse = require('fs-extra');
 const path = require('path');
 const { isObject, spinnerStart } = require('@snowlepoard520/utils');
@@ -13,7 +12,7 @@ const pathExists = require('path-exists').sync;
 class Package {
   constructor(options) {
     log.verbose('options: ', options);
-    // console.log('isObject: ', isObject(options));
+    // log.verbose('isObject: ', isObject(options));
     // console.log('Package constructor')
     if (!options) {
       throw new Error('package 参数不能为空');
@@ -37,22 +36,22 @@ class Package {
   }
 
   async prepare() {
-    console.log('this.storeDir: ', this.storeDir);
+    log.verbose('this.storeDir: ', this.storeDir);
     if (this.storeDir && !pathExists(this.storeDir)) {
-      console.log('生成目录：');
+      log.verbose('生成目录：');
       fse.mkdirpSync(this.storeDir);
     }
-    console.log('this.storeDir: ', this.packageVersion);
+    log.verbose('this.storeDir: ', this.packageVersion);
     if (this.packageVersion === 'latest') {
       this.packageVersion = await getNpmLatestVersion(this.packageName);
     }
     // _@imooc-cli_init@1.1.3@@imooc-cli
     // packageName: imooc-cli/init version: 1.1.3
-    // console.log(this.packageVersion, '最新的版本');
+    // log.verbose(this.packageVersion, '最新的版本');
   }
 
   get cacheFilePath() {
-    console.log(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`, 88888888);
+    log.verbose(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`, 88888888);
     return path.resolve(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`);
   }
 
@@ -92,7 +91,7 @@ class Package {
 
   // 更新package
   async update() {
-    // console.log('package update');
+    // log.verbose('package update');
     const spinner = spinnerStart('安装package 准备中...');
     await this.prepare();
     spinner.stop(true);
@@ -115,18 +114,17 @@ class Package {
       })
       this.packageVersion = latestPackageVersion;
     } else {
-      console.log('不需要更新，我已经是最新的了');
+      log.verbose('不需要更新，我已经是最新的了');
     }
   }
 
   // 获取入口文件的路径
   getRootFilePath() {
-    console.log('-------------getRootFilePath--------------')
     function _getRootFile(targetPath){
       // 1、获取package.json所在目录- pkg-dir
-      // console.log(await packageDirectory(this.targetPath));
+      // log.verbose(await packageDirectory(this.targetPath));
       const dir = pkgDir(targetPath);
-      console.log(dir, 'dir-------');
+      log.verbose(dir, 'dir-------');
       if (dir) {
         // 2、读取package.json
         const pkgFile = require(path.resolve(dir, 'package.json'));
@@ -139,8 +137,8 @@ class Package {
       }
       return null;
     }
-    console.log('this.storeDir=========: ', this.storeDir);
-    // console.log('this.cacheFilePath: ', this.cacheFilePath);
+    log.verbose('this.storeDir=========: ', this.storeDir);
+    // log.verbose('this.cacheFilePath: ', this.cacheFilePath);
 
     // 使用缓存的时候
     if (this.storeDir) {

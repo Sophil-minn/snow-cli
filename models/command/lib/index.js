@@ -46,7 +46,7 @@ class Command {
     if (!semver.gte(currentVersion, lowestVersion)) {
       throw new Error(colors.red(`snow-cli 需要安装v${lowestVersion}以上版本的node`));
     } else {
-      log.snow(`当前nodejs版本号为${currentVersion}!`);
+      log.verbose(`当前nodejs版本号为${currentVersion}!`);
     }
 
   }

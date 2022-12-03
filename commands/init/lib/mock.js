@@ -9,18 +9,18 @@ exports.templateList = [
     ignore: [ '**/public/**' ],
     tag: [ 'project' ]
   },
+  // {
+  //   version: '1.0.0',
+  //   name: 'vue2 管理后端模版',
+  //   npmName: 'snow-cli-template-vue-element-admin',
+  //   type: 'normal',
+  //   installCommand: 'npm install',
+  //   startCommnand: 'npm start',
+  //   ignore: [ '**/public/**' ],
+  //   tag: [ 'project' ]
+  // },
   {
-    version: '1.0.0',
-    name: 'vue2 管理后端模版',
-    npmName: 'snow-cli-template-vue-element-admin',
-    type: 'normal',
-    installCommand: 'npm install',
-    startCommnand: 'npm start',
-    ignore: [ '**/public/**' ],
-    tag: [ 'project' ]
-  },
-  {
-    version: '1.1.5',
+    version: '1.1.6',
     name: 'vue自定义极简模板',
     npmName: 'snow-cli-template-custom',
     type: 'custom',
@@ -30,35 +30,25 @@ exports.templateList = [
     tag: [ 'project' ]
   },
   {
-    version: '1.1.1',
-    name: 'react默认路由配置模板',
-    npmName: 'minn-react-hasroute-template',
-    type: 'normal',
-    installCommand: 'npm install',
-    startCommnand: 'npm start',
-    ignore: [ '**/public/**' ],
-    tag: [ 'project' ]
-  },
-  {
-    version: '1.0.0',
-    name: 'snow react极简模板',
-    npmName: 'minn-react-typescript-template',
-    type: 'normal',
-    installCommand: 'npm install',
-    startCommnand: 'npm start',
-    ignore: [ '**/public/**' ],
-    tag: [ 'project' ]
-  },
-  {
     version: '1.1.0',
-    name: 'react 组件库 模版',
-    npmName: 'snow-cli-storybook-component-template',
+    name: 'react默认路由配置模板',
+    npmName: 'snow-react-withroute-template',
     type: 'normal',
     installCommand: 'npm install',
     startCommnand: 'npm start',
     ignore: [ '**/public/**' ],
-    tag: [ 'component' ]
+    tag: [ 'project' ]
   },
+  // {
+  //   version: '1.1.1',
+  //   name: 'react 组件库 模版',
+  //   npmName: 'snow-cli-storybook-component-template',
+  //   type: 'normal',
+  //   installCommand: 'npm install',
+  //   startCommnand: 'npm run storybook',
+  //   ignore: [ '**/public/**' ],
+  //   tag: [ 'component' ]
+  // },
   {
     version: '1.0.0',
     name: '乐高 组件库 模版',

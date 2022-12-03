@@ -76,10 +76,11 @@ class InitCommand extends Command {
     let spinner = spinnerStart('正在安装模板...');
     await sleep();
     const targetPath = process.cwd();
+    log.verbose('targetPath: ', targetPath);
     try {
-      console.log(this.templateNpm.cacheFilePath, 'this.templateNpm.cacheFilePath');
+      log.verbose(this.templateNpm.cacheFilePath, 'this.templateNpm.cacheFilePath');
       const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template');
-      console.log('templatePath:------------ ', templatePath);
+      log.verbose('templatePath:------------ ', templatePath);
       fse.ensureDirSync(templatePath);
       fse.ensureDirSync(targetPath);
       fse.copySync(templatePath, targetPath);
@@ -116,7 +117,7 @@ class InitCommand extends Command {
         throw new Error('命令不存在！命令：' + command);
       }
       const args = cmdArray.slice(1);
-      console.log(cmd, args, 'cmd, argscmd, args');
+      log.verbose(cmd, args, 'cmd, argscmd, args');
       ret = await execAsync(cmd, args, {
         stdio: 'inherit',
         cwd: process.cwd(),
@@ -130,16 +131,17 @@ class InitCommand extends Command {
   }
   async ejsRender(options) {
     const dir = process.cwd();
+    log.verbose('ejsRender- dir: ', dir);
     const projectInfo = this.projectInfo;
     return new Promise((resolve, reject) => {
       glob('**', {
         cwd: dir,
-        ignore: options.ignore || '',
+        ignore: [ "**.png", "**.jpg", ...options?.ignore] || '',
         nodir: true,
       }, function(err, files) {
-        console.log(files, 'files-----');
+        log.verbose(files, 'files-----');
         if (err) {
-          console.log(err,  'ejsRender glob出错了 ');
+          log.verbose(err,  'ejsRender glob出错了 ');
           reject(err);
         }
         Promise.all(files.map(file => {
@@ -168,7 +170,7 @@ class InitCommand extends Command {
     // 查询自定义模板的入口文件
     if (await this.templateNpm.exists()) {
       const rootFile = this.templateNpm.getRootFilePath();
-      console.log('rootFile------: ', rootFile);
+      log.verbose('rootFile------: ', rootFile);
       if (fs.existsSync(rootFile)) {
         log.notice('开始执行自定义模板');
         const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template');
@@ -198,18 +200,18 @@ class InitCommand extends Command {
 
   async downloadTemplate () {
     log.verbose('准备阶段 拿到的 projectInfo: ', this.projectInfo);
-    log.snow('模版列表: ', this.template);
-    console.log(this.projectInfo, '我填写的信息');
+    log.verbose('模版列表: ', this.template);
+    log.snow(this.projectInfo, '我填写的信息');
     const { packageVersion: myCustomVersion } = this.projectInfo;
     const { projectTemplate } = this.projectInfo;
     if (!projectTemplate) {
-      log.snow("模板不存在!");
+      log.verbose("模板不存在!");
       process.exit(1);
     }
     const templateInfo = this.template?.find(item => item.npmName === projectTemplate);
-    log.snow('templateInfo', templateInfo);
+    log.verbose('templateInfo', templateInfo);
     if (!templateInfo) {
-      log.snow("模版列表为空!");
+      log.verbose("模版列表为空!");
       process.exit(1);
     }
     const { npmName, version } = templateInfo;
@@ -228,7 +230,7 @@ class InitCommand extends Command {
     log.verbose(targetPath, storeDir, npmName, version, templateNpm );
     // 如果不存在直接安装npm， 如果存在直接更新
     if (!await templateNpm.exists()) {
-      console.log('下载模板 start');
+      log.snow('下载模板 start');
       const spinner = spinnerStart('正在下载模板...');
       await sleep(5000);
       try {
@@ -237,7 +239,7 @@ class InitCommand extends Command {
           log.success('下载模板成功');
         }
       } catch (error) {
-        console.log('下载模板出错了～');
+        log.error('下载模板出错了～');
         throw error;
       } finally {
         spinner.stop(true);
@@ -246,12 +248,12 @@ class InitCommand extends Command {
         }
       }
     } else {
-      console.log('更新 start');
+      log.verbose('更新 start');
       const spinner = spinnerStart('正在更新模板...');
       await sleep(5000);
       try {
         await templateNpm.update();
-        console.log('更新模板start～');
+        log.verbose('更新模板start～');
         spinner.stop(true);
       } catch (error) {
         throw error;
@@ -260,14 +262,14 @@ class InitCommand extends Command {
       if (await templateNpm.exists()) {
         log.success('更新模板成功');
       }
-      console.log('更新 end');
+      log.verbose('更新 end');
       }
     }
     
   }
 
   async prepare() {
-    console.log('start安装模板准备阶段开始~');
+    log.verbose('start安装模板准备阶段开始~');
     // 1，通过项目模板API获取项目模板信息
     // 1.1， 通过egg.js搭建一套后端系统
     // 1.2 通过npm 存储项目模板
@@ -309,11 +311,11 @@ class InitCommand extends Command {
           // fse.removeSync();
           // 清空当前目录 emptyDirSync 和  removeSync区别,不会删除当前目录
           fse.emptyDirSync(localPath);
-          console.log('您已清空当前目录 !',);
+          log.snow('您已清空当前目录 !',);
         }
       }
     }
-    console.log('安装模板准备阶段结束~');
+    log.verbose('安装模板准备阶段结束~');
     // 3, 选择创建项目或组件
     // 4、获取项目的基本信息
     // return 项目的基本信息
@@ -443,7 +445,6 @@ class InitCommand extends Command {
     }
      // 给用户输出 项目的基本 信息
      return projectInfo;
-     
   }
 
   isDirEmpty(localPath) {
