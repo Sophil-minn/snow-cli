@@ -1,6 +1,6 @@
 {
   "name": "@snowlepoard/snow-cli",
-  "version": "1.4.2",
+  "version": "1.5.1",
   "description": "",
   "main": "./core/cli/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/Sophil-minn/snow-cli.git"
   },
   "bin": {
-    "minn": "./core/cli/bin/index.js"
+    "snow": "./core/cli/bin/index.js"
   },
   "keywords": [],
   "author": "",

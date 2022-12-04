@@ -106,15 +106,17 @@ class InitCommand extends Command {
       log.verbose('删除yarn.lock: ', toDel);
       // 用户选否 直接终止流程
       if (!toDel) {
-        return;
+        fse.remove(file)
+          .then(() => {
+            console.log(`${file} 已被删除`)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      } else {
+        log.warn('存在yarn.lock文件 ');
       }
-      fse.remove(file)
-      .then(() => {
-        console.log(`${file} 已被删除`)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+      
     }
     // 安装依赖
     const { installCommand, startCommnand } = this.templateInfo;
