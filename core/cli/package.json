@@ -1,6 +1,6 @@
 {
   "name": "@snowlepoard520/core",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "snowlepoard520 core",
   "author": "minmin <1056640663@qq.com>",
   "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/packages/core#readme",
@@ -35,13 +35,13 @@
     "colors": "^1.4.0",
     "commander": "^6.2.1",
     "dotenv": "^16.0.3",
+    "import-local": "^3.1.0",
     "npminstall": "^6.6.1",
     "path-exists": "^4.0.0",
     "root-check": "^1.0.0",
     "semver": "^7.3.8",
-    "user-home": "^3.0.0",
-    "import-local": "^3.1.0",
-    "url-join": "^5.0.0"
+    "url-join": "^5.0.0",
+    "user-home": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"
