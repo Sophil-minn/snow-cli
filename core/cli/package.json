@@ -35,19 +35,16 @@
     "colors": "^1.4.0",
     "commander": "^6.2.1",
     "dotenv": "^16.0.3",
-    "minimist": "^1.2.7",
     "npminstall": "^6.6.1",
     "path-exists": "^4.0.0",
     "root-check": "^1.0.0",
     "semver": "^7.3.8",
-    "user-home": "^3.0.0"
+    "user-home": "^3.0.0",
+    "import-local": "^3.1.0",
+    "url-join": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "import-local": "^3.1.0",
-    "url-join": "^5.0.0"
   },
   "gitHead": "daeeb16eca114f03ab795c710c0a99cb45d0e5c9"
 }

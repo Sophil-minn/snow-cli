@@ -93,6 +93,29 @@ class InitCommand extends Command {
     const templateIgnore = this.templateInfo.ignore || [];
     const ignore = ['**/node_modules/**', '**/img/**', ...templateIgnore];
     await this.ejsRender({ ignore });
+    // 如果存在yarn.lock 文件, 让用户选择是否删除
+    const file = path.resolve('yarn.lock');
+    let toDel = false;
+    if (fs.existsSync(file)) {
+      toDel = (await inquirer.prompt({
+        type: 'confirm',
+        name: 'toDel',
+        // default: false,
+        message: '存在yarn.lock 文件, 是否确定删除它？'
+      })).toDel;
+      log.verbose('删除yarn.lock: ', toDel);
+      // 用户选否 直接终止流程
+      if (!toDel) {
+        return;
+      }
+      fse.remove(file)
+      .then(() => {
+        console.log(`${file} 已被删除`)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    }
     // 安装依赖
     const { installCommand, startCommnand } = this.templateInfo;
     // 依赖安装
@@ -133,6 +156,7 @@ class InitCommand extends Command {
     const dir = process.cwd();
     log.verbose('ejsRender- dir: ', dir);
     const projectInfo = this.projectInfo;
+    log.verbose('ejsRender----this.projectInfo: ', this.projectInfo);
     return new Promise((resolve, reject) => {
       glob('**', {
         cwd: dir,
@@ -201,7 +225,7 @@ class InitCommand extends Command {
   async downloadTemplate () {
     log.verbose('准备阶段 拿到的 projectInfo: ', this.projectInfo);
     log.verbose('模版列表: ', this.template);
-    log.snow(this.projectInfo, '我填写的信息');
+    log.snow(JSON.stringify(this.projectInfo), '我填写的信息');
     const { packageVersion: myCustomVersion } = this.projectInfo;
     const { projectTemplate } = this.projectInfo;
     if (!projectTemplate) {
@@ -230,7 +254,7 @@ class InitCommand extends Command {
     log.verbose(targetPath, storeDir, npmName, version, templateNpm );
     // 如果不存在直接安装npm， 如果存在直接更新
     if (!await templateNpm.exists()) {
-      log.snow('下载模板 start');
+      log.verbose('下载模板 start');
       const spinner = spinnerStart('正在下载模板...');
       await sleep(5000);
       try {
@@ -309,9 +333,10 @@ class InitCommand extends Command {
         });
         if (confirmDelete) {
           // fse.removeSync();
+          log.snow('正在清空当前目录下的文件...');
           // 清空当前目录 emptyDirSync 和  removeSync区别,不会删除当前目录
           fse.emptyDirSync(localPath);
-          log.snow('您已清空当前目录 !',);
+          log.snow('已清空当前目录 !');
         }
       }
     }
@@ -359,7 +384,7 @@ class InitCommand extends Command {
     projectPrompt.push(
       {
         type: 'input',
-        name: 'ProjectName',
+        name: 'projectName',
         message: `请输入${title}名称`,
         default: '',
         validate: function(v) {
@@ -381,7 +406,7 @@ class InitCommand extends Command {
       }, 
       {
         type: 'input',
-        name: 'ProjectVersion',
+        name: 'projectVersion',
         message: `请输入${title}版本号`,
         default: '1.0.0',
         // validate: function(v) {
@@ -432,6 +457,7 @@ class InitCommand extends Command {
         ...component,
       };
     }
+    log.verbose('projectInfo1111', projectInfo)
     // 生成className
     if (projectInfo.projectName) {
       projectInfo.name = projectInfo.projectName;

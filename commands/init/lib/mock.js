@@ -30,12 +30,12 @@ exports.templateList = [
     tag: [ 'project' ]
   },
   {
-    version: '1.1.0',
+    version: '1.2.0',
     name: 'react默认路由配置模板',
     npmName: 'snow-react-withroute-template',
     type: 'normal',
     installCommand: 'npm install',
-    startCommnand: 'npm start',
+    startCommnand: 'npm run start',
     ignore: [ '**/public/**' ],
     tag: [ 'project' ]
   },
@@ -50,8 +50,18 @@ exports.templateList = [
   //   tag: [ 'component' ]
   // },
   {
-    version: '1.0.0',
+    version: '1.1.0',
     name: '乐高 组件库 模版',
+    npmName: 'snow-cli-lego-template',
+    type: 'normal',
+    installCommand: 'yarn install',
+    startCommnand: 'yarn start',
+    ignore: [ '**/public/**' , '**/.png'],
+    tag: [ 'component' ]
+  },
+  {
+    version: '1.0.0',
+    name: '不存在的模版测试用',
     npmName: 'imooc-cli-dev-lego-template',
     type: 'normal',
     installCommand: 'npm install',
