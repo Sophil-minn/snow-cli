@@ -14,7 +14,6 @@ const exec = require('@snowlepoard520/exec');
 const { getNpmLatestVersion } = require('@snowlepoard520/get-npm-info');
 const constant = require('./const');
 const dotenv = require('dotenv');
-
 const commander = require('commander');
 const program = new commander.Command();
 

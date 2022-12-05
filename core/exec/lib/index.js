@@ -71,10 +71,8 @@ async function exec() {
         }
       });
       args[args.length - 1] = o;
-    //   console.log('-------args: ', args, '-------args: ');
     //   // 兼容   windows
-      const code = ` require('${rootFile.replace(/\\/g, '\\\\')}').call(null, ${JSON.stringify(args)});`;
-    //   console.log('JSON.stringify(args): ', JSON.stringify(args));
+    const code = ` require('${rootFile.replace(/\\/g, '\\\\')}').call(null, ${JSON.stringify(args)});`;
     //   // const code = ` require(${rootFile});`;
     //   // console.log(code, 'c');
     //   // win sp.spawn('cmd', ['/c', 'node, '-e', code]);

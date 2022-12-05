@@ -20,9 +20,4 @@ log.addLevel('snow', 5200, { fg: 'cyan', bg: "blue", bold: true}); // 添加 自
 
 module.exports = log;
 
-function index() {
-  console.log('process.env.LOG_LEVEL: ', process.env.LOG_LEVEL);
-  log.verbose('test', 'targetPath');
-  log.info('cli', 'test');
-}
 

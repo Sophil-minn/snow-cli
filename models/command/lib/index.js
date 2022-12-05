@@ -48,7 +48,6 @@ class Command {
     } else {
       log.verbose(`当前nodejs版本号为${currentVersion}!`);
     }
-
   }
 
   init() {

@@ -15,7 +15,6 @@ function getNpmInfo(npmName, registry) {
     return null;
   }
   const registryUrl = registry || getDefaultRegistry();
-  // const testNpmName = '@snowlepoard520/core'
   const npmInfoUrl = urlJoin(registryUrl, npmName);
   // const npmInfoUrl = urlJoin(registryUrl, testNpmName);
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);

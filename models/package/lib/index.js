@@ -71,7 +71,6 @@ class Package {
     } else {
       return pathExists(this.targetPath);
     }
-    
   }
 
   // 安装package

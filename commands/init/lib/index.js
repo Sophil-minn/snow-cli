@@ -19,7 +19,6 @@ const TEMPLATE_TYPE_NORMAL = 'normal';
 const TEMPLATE_TYPE_CUSTOM = 'custom';
 
 const SNOW_CLI_TARGET_DIR = '.snow-cli';
-
 // 白名单命令
 const WHITE_COMMAND = ['npm', 'cnpm'];
 

@@ -11,7 +11,6 @@ function formatPath(p) {
     } else {
       return p.replace(/\\/g, '/');
     }
-    // console.log(p, 'formatPath方法');
   }
 }
 

@@ -9,8 +9,6 @@ const request = axios.create({
   timeout: 5000
 });
 
-// console.log('request: ', request);
-
 request.interceptors.response.use(
   response => {
     // console.log('response: ', response);
