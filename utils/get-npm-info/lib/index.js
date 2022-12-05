@@ -16,7 +16,6 @@ function getNpmInfo(npmName, registry) {
   }
   const registryUrl = registry || getDefaultRegistry();
   const npmInfoUrl = urlJoin(registryUrl, npmName);
-  // const npmInfoUrl = urlJoin(registryUrl, testNpmName);
   // console.log('请求 npmInfoUrl: ', npmInfoUrl);
   // return new Promise(resolve => resolve(getCoreData));
   return axios.get(npmInfoUrl).then(response => {

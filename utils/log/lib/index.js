@@ -6,9 +6,6 @@ const log = require('npmlog');
 
 log.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL: 'info'; // 判断debug模式
 
-
-// log.level = 'verbose';
-
 log.heading = '-'; // 修改前缀
 log.addLevel('success', 2400, { fg: 'green'}); // 添加 自定义命令
 // log.addLevel('success2', 2300, { fg: 'coffee'}); // 添加 自定义命令

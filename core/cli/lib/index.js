@@ -21,7 +21,7 @@ function registerCommand() {
   log.verbose('registerCommand: ', 'start');
   // log.verbose('pkg?.bin: ', pkg);
   program
-    .name(`${Object.keys(pkg?.bin)[0]}----minnnn`)
+    .name(`${Object.keys(pkg?.bin)[0]}----min`)
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '是否开启调试模式', false)

@@ -14,4 +14,5 @@ function formatPath(p) {
   }
 }
 
+
 module.exports = formatPath;

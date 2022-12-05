@@ -138,7 +138,6 @@ class Package {
     }
     log.verbose('this.storeDir=========: ', this.storeDir);
     // log.verbose('this.cacheFilePath: ', this.cacheFilePath);
-
     // 使用缓存的时候
     if (this.storeDir) {
       return _getRootFile(this.cacheFilePath);

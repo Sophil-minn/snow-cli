@@ -57,7 +57,6 @@ class Command {
   exec() {
     throw new Error('exec必须实现');
   }
-
 }
 
 module.exports = Command;

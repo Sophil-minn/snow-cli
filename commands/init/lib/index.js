@@ -10,7 +10,6 @@ const Command = require('@snowlepoard520/command');
 const Package = require('@snowlepoard520/package');
 const userHome = require('user-home');
 const { spinnerStart, sleep, execAsync } = require('@snowlepoard520/utils');
-
 const getProjectTemplate = require('./getProjectTemplate');
 
 const TYPE_PROJECT = 'project';

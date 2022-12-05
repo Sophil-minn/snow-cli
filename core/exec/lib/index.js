@@ -74,7 +74,6 @@ async function exec() {
     //   // 兼容   windows
     const code = ` require('${rootFile.replace(/\\/g, '\\\\')}').call(null, ${JSON.stringify(args)});`;
     //   // const code = ` require(${rootFile});`;
-    //   // console.log(code, 'c');
     //   // win sp.spawn('cmd', ['/c', 'node, '-e', code]);
       log.verbose('child process.cwd()-----');
       const child = spawn('node', ['-e', code], {
