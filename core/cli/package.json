@@ -1,13 +1,13 @@
 {
   "name": "@snowlepoard520/core",
-  "version": "1.5.4",
+  "version": "1.5.9",
   "description": "snowlepoard520 core",
   "author": "minmin <1056640663@qq.com>",
   "homepage": "https://github.com/Sophil-minn/snow-cli/tree/main/packages/core#readme",
   "license": "ISC",
   "main": "bin/index.js",
   "bin": {
-    "snow": "bin/index.js"
+    "minn": "bin/index.js"
   },
   "directories": {
     "lib": "lib",
@@ -41,7 +41,7 @@
     "root-check": "^1.0.0",
     "semver": "^7.3.8",
     "url-join": "^5.0.0",
-    "user-home": "^3.0.0"
+    "user-home": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"

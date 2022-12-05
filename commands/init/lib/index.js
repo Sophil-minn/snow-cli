@@ -4,7 +4,6 @@ const path = require('path');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const fse = require('fs-extra');
-const semver = require('semver');
 const glob = require('glob');
 const ejs = require('ejs');
 const Command = require('@snowlepoard520/command');
@@ -13,7 +12,6 @@ const userHome = require('user-home');
 const { spinnerStart, sleep, execAsync } = require('@snowlepoard520/utils');
 
 const getProjectTemplate = require('./getProjectTemplate');
-const { threadId } = require('worker_threads');
 
 const TYPE_PROJECT = 'project';
 const TYPE_COMPONENT = 'component';
