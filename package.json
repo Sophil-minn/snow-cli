@@ -1,8 +1,8 @@
 {
   "name": "@snowlepoard/snow-cli",
-  "version": "1.5.5",
+  "version": "1.5.7",
   "description": "",
-  "main": "./core/cli/index.js",
+  "main": "./core/cli/bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,9 +25,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.3",
-    "npmlog": "^7.0.1"
   }
 }
